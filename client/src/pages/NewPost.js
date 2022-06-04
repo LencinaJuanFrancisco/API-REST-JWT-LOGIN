@@ -1,0 +1,108 @@
+import React, { useEffect, useState } from "react";
+import { useNavigate, useParams, Link } from "react-router-dom";
+import { Formik,Form,Field,ErrorMessage } from "formik";
+import * as Yup from "yup";
+import {AiOutlineLoading3Quarters} from 'react-icons/ai'
+export default function NewPost() {
+  return (
+    <div className="h-screen w-full bg-gray-900">
+     
+      <div className="flex justify-center">
+        <h2 className="text-white my-10">CREAR NUEVO POST</h2>
+      </div>
+      <div className="flex items-center  justify-center ">
+      <div className="bg-zinc-800 p-10 shadow-md shadow-black w-3/4">
+        <header className="flex justify-between items-center py-4 text-white">
+          <h3 className="text-xl">New Post</h3>
+          <Link to="/" className="text-gray-300 text-sm hover:text-gray-500">
+            Go Home
+          </Link>
+        </header>
+        <Formik
+          //initialValues={post}
+          validationSchema={Yup.object({
+            title: Yup.string().required(
+              "El titulo es requerido y debe ser de tipo Texto"
+            ),
+            description: Yup.string().required(
+              "La descripcion es requerida y debe ser de tipo Texto"
+            ),
+          })}
+          onSubmit={async (values, actions) => {
+            // antes de enviar la informacion a guardar , debemos identificar si es un nuevo post o un update,
+            //para hace vamos a usar un condicional para verificar si existe un params, asi, de esta forma podemos
+            // identificar si es un update o un create
+            //console.log(values)
+            // if (params.id) {
+            //   await updatePost(params.id, values);
+            // } else {
+            //   await createPost(values);
+            // }
+            actions.setSubmitting(false)
+            //    una vez creado el post no redireccina al home
+            //navigate("/");
+          }}
+          enableReinitialize={true}
+        >
+          {/* handleSubmit es una funcion propia de FORMIK */}
+          {({ handleSubmit, setFieldValue,isSubmitting }) => (
+            <Form onSubmit={handleSubmit}>
+              <label htmlFor="title" className="text-sm block text-gray-400">
+                Title
+              </label>
+              <Field
+                name="title"
+                placeholder="title"
+                className="px-3 py-2 rounded focus:outline-none bg-gray-600 text-white w-full mb-4"
+              ></Field>
+              <ErrorMessage
+                component="p"
+                className="text-red-600 text-sm"
+                name="title"
+              />
+              <label
+                htmlFor="description"
+                className="text-sm block text-gray-400"
+              >
+                Description
+              </label>
+              <Field
+                component="textarea"
+                rows="5"
+                name="description"
+                placeholder="description"
+                className="px-3 py-2 rounded focus:outline-none bg-gray-600 text-white w-full block"
+              ></Field>
+              <ErrorMessage
+                component="p"
+                className="text-red-600 text-sm"
+                name="description"
+              />
+              <label htmlFor="title" className="text-sm block text-gray-400">
+                Image
+              </label>
+              <input
+              onChange={(e)=> setFieldValue('image',e.target.files[0])}
+                type="file"
+                name="image"
+                id=""
+                className="px-3 py-2 focus:outline-none rounded bg-gray-600 text-white w-full"
+              />
+
+              <button
+                type="submit"
+                disabled={isSubmitting}
+                className="w-full my-5 py-2 bg-teal-500 shadow-lg shadow-teal-500/60 hover:shadow-teal-500/30 text-white font-semibold rounded-lg"
+              >
+                {isSubmitting ? (
+                  <AiOutlineLoading3Quarters className="animate-spin h-5 w-5 text-center" />
+                ): 'Save'}
+              </button>
+            </Form>
+          )}
+        </Formik>
+      </div>
+    </div>  
+    </div>
+  );
+}

@@ -1,6 +1,7 @@
 const pool = require("../db/config");
 
 const addNewPost = (post) => {
+    console.log("que hay por aca",post);
     const query = "INSERT INTO posts SET ?";
     try {
         return pool.query(query, post)

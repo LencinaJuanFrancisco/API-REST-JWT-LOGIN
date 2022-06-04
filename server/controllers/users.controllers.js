@@ -37,16 +37,28 @@ const listOne = async (req, res, next) => {
 }
 const editOne = async (req, res, next) => {
     if (notNumber(req.params.id, next)) return
-    const image = `${public_url}/${req.file.filename}`
-    const rtaEditOne = await editUserById(+req.paramas.id, { ...req.body, image })
-    if (rtaEditOne instanceof Error) return next(rtaEditOne)
-    rtaEditOne.affectedRows ? res.status(200).json({ message: "User Modified!" })
-        : next()
+    if(req.file != undefined){
+        try {
+            const image = `${public_url}/${req.file.filename}`
+             await editUserById(+req.params.id, { ...req.body, image })
+             res.status(200).json({ message: "User Modified!" })
+        } catch (error) {
+            next(error)
+            // if (rtaEditOne instanceof Error) return next(rtaEditOne)
+        }
+      } else{
+        try {
+            await editUserById(+req.params.id, { ...req.body})
+             res.status(200).json({ message: "User Modified!" })
+        } catch (error) {
+            next(error)
+        }
+    }}
+    
 
-}
 const deleteOne = async (req, res, next) => {
-    if (notNumber(req.paramas.id, next)) return
-    const rtaDeleteOne = await deleteUserById(+req.paramas.id)
+    if (notNumber(req.params.id, next)) return
+    const rtaDeleteOne = await deleteUserById(+req.params.id)
     if (rtaDeleteOne instanceof Error) return next(rtaDeleteOne);
     !rtaDeleteOne.affectedRows ? next()
         : res.status(204).end();

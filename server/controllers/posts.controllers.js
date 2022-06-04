@@ -8,7 +8,6 @@ const listAll = async (req, res, next) => {
         rtaList = await getPostsWith(req.query.title)
     } else {
         rtaList = await getAllPosts()
-
     }
     if (rtaList instanceof Error) return next(rtaList);
     rtaList.length ? res.status(200).json(rtaList) : res.status(200).json({ message: "no hay posts" });

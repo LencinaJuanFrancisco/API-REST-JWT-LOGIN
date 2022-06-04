@@ -19,14 +19,14 @@ app.engine("hbs", hbs.engine({ extname: "hbs" }))
 
 app.listen(PORT, (err) => {
     err ? console.log(`Error de puert ----> ${err}`)
-        : console.log(`Servidor corriendo en http://localhost:${PORT}`)
+        : console.log(`😎😎😎 Servidor corriendo en http://localhost:${PORT}`)
 })
 
 app.get('/', (req, res) => {
-    res.send('hola mundillo')
+    res.send('😘😘😘😘😘😘😘😘😘')
 })
-const users = require('./router/users.router')
-const posts = require('./router/posts.router')
+const users = require('./server/router/users.router')
+const posts = require('./server/router/posts.router')
 app.use('/users', users)
 app.use('/posts', posts)
 

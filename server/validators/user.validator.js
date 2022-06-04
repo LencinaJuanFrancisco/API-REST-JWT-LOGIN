@@ -26,11 +26,13 @@ const validatorCreateUser = [
 ]
 const validatorEditUser = [
     check("name")
+    .optional({nullable: true})
         .exists().withMessage("Name field required")
         .trim()
         .isAlpha('es-ES', { ignore: ' ' }).withMessage("Only letters")
         .isLength({ min: 2, max: 90 }).withMessage("Character count: min 2, max 90"),
     check("email")
+        .optional({nullable: true})
         .exists().withMessage("Email field required")
         .trim()
         .isEmail().withMessage("Must be a valid email address")

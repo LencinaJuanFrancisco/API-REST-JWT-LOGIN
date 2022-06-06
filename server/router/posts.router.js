@@ -7,7 +7,7 @@ const validatorCreatePost = require("../validators/posts.validator")
 router.get("/", listAll)
 router.post("/",  validatorCreatePost, addOne)//isAuth,sacamos la utorizacion para verificar el proceso de eliminacion
 router.get("/:id", listOne)
-router.post("/:id", validatorCreatePost, editOne)//isAuth,sacamos la utorizacion para verificar el proceso de eliminacion
+router.put("/:id", validatorCreatePost, editOne)//isAuth,sacamos la utorizacion para verificar el proceso de eliminacion
 router.delete('/:id',  deleteOne) //isAuth,sacamos la utorizacion para verificar el proceso de eliminacion
 
 

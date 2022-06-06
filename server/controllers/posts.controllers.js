@@ -21,10 +21,11 @@ const addOne = async (req, res, next) => {
 
 }
 const editOne = async (req, res, next) => {
+    console.log('editOne',req.params.id);
     if (notNumber(req.params.id, next)) return
     const rtaEdit = await editPost(+req.params.id, req.body)
     if (rtaEdit instanceof Error) return next(rtaEdit)
-    rtaEdit.affectedRows ? res.status(200).json({ message: "Posts modified!" }) : next()
+    rtaEdit.affectedRows ? res.status(200).json({ id:req.params.id,...req.body}) : next()
 }
 const listOne = async (req, res, next) => {
     if (notNumber(req.params.id, next)) return

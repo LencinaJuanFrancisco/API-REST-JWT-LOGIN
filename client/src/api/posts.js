@@ -10,6 +10,11 @@ export const getPosReq=async()=>{
    }
     
 }
+export const getOnePostReq = async (id)=>{
+    const res= await axios.get(`/posts/${id}`)
+    console.log('getOnepost', res.data[0]);
+    return res.data[0]
+  }
 export const deletePostRequest = async (id)=>{
     try {
         const res= await axios.delete(`/posts/${id}`)
@@ -27,4 +32,9 @@ export const createPostReq = async(post)=>{
     } catch (error) {
         console.log(error);
     }
+}
+export const updatePostReq=async(id,post)=>{
+    const res = await axios.put(`/posts/${id}`,post)
+    console.log('updatePostReq', res.data);
+    return res.data
 }

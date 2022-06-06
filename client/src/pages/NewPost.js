@@ -17,6 +17,7 @@ const [post, setPost] = useState({
   body: "",
   // image: null,
 });
+//verificamos si viene alguna paramatro (params) para ver si vamos a usar el formulario para crear o editar, ya que si lo vamos a editar vamos a cargar la informacion en los input (Field)
 useEffect(() => {
   // si tiene id , es xq queremos actualizar.
   // cramos una funcion "autoinvocada" ya que la funcion del useEffect no permite utilizar async de forma directa. Luego, automaticamente que cerramos la funcion , la ejecutamos, ()

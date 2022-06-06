@@ -46,12 +46,12 @@ function PostCard({ post }) {
     <div
       className=" w-60 p-2 m-auto bg-white rounded-xl transform transition-all hover:-translate-y-2 duration-300 shadow-white shadow-sm hover:shadow-2xl break-inside-avoid"
     
-      onClick={() => navigate(`/posts/${post.id}`)}
+      
     >
       <img className="h-40 object-cover rounded-xl" src={image} />
       <div className="p-2 w-60">
-        <h2 className="font-bold text-lg mb-2 ">{post.title}</h2>
         <h2 className="font-bold text-lg mb-2 ">{post.id}</h2>
+        <h2 className="font-bold text-lg mb-2 ">{post.title}</h2>
         <p className="mt-4 p-1 w-full text-sm leading-6 col-start-1 sm:col-span-2 lg:mt-6 lg:row-start-4 lg:col-span-1 dark:text-slate-400 ">{post.body}</p>
       </div>
       <div className="flex justify-between">
@@ -66,10 +66,7 @@ function PostCard({ post }) {
         </button>
         <button
           className="text-white bg-sky-500 px-3 py-1 rounded-md hover:bg-sky-700"
-          onClick={(e) => {
-            e.stopPropagation();
-            // handelDelete(post._id, post.title)
-          }}
+          onClick={() => navigate(`/newPost/${post.id}`)}
         >
           Edit
         </button>

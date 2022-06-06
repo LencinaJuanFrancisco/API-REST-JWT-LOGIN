@@ -13,13 +13,16 @@ export default function Home() {
         <Link to="/login" className="w-20 m-5 py-2 bg-teal-500 shadow-lg shadow-teal-500/60 hover:shadow-teal-500/30 text-white font-semibold rounded-lg">Login</Link>
         <Link to="/newPost" className="w-20 m-5 py-2 bg-teal-500 shadow-lg shadow-teal-500/60 hover:shadow-teal-500/30 text-white font-semibold rounded-lg">New Post</Link>
         </div>
-        <div>
-            <h1>Listado de Posts</h1>
+        <div className='my-5'>
+        <div className='my-15 py-15 bg-slate-700'>
+            <h1 className='text-center text-5xl font-bold text-gray-500 pt-8 pb-5'>Listado de Posts</h1>
         </div>
-        <div className="grid grid-cols-3 gap-2">
+        <div className="columns-4 gap-3 w-[1200px] mx-auto space-y-3 p-5 pb-5 bg-slate-700 f">
           {posts.map((post) => (
             <PostCard post={post} key={post.id} />
           ))}
+        </div>
+
         </div>
     </div>
   )

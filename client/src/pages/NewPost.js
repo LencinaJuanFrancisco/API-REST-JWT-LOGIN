@@ -1,9 +1,21 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams, Link } from "react-router-dom";
+import { usePosts } from "../context/postContext";
 import { Formik,Form,Field,ErrorMessage } from "formik";
 import * as Yup from "yup";
 import {AiOutlineLoading3Quarters} from 'react-icons/ai'
+
+
 export default function NewPost() {
+const {createPost}= usePosts()
+const navigate= useNavigate()
+// creamos un useState para manejar los valores del post cuando queremos editar, asi , cuando viene la inforacion que queremos editar podemos modificar el valor inicial da los initialValues del FORMIK
+const [post, setPost] = useState({
+  title: "",
+  body: "",
+  // image: null,
+});
+
   return (
     <div className="h-screen w-full bg-gray-900">
      
@@ -19,12 +31,12 @@ export default function NewPost() {
           </Link>
         </header>
         <Formik
-          //initialValues={post}
+          initialValues={post}
           validationSchema={Yup.object({
             title: Yup.string().required(
               "El titulo es requerido y debe ser de tipo Texto"
             ),
-            description: Yup.string().required(
+            body: Yup.string().required(
               "La descripcion es requerida y debe ser de tipo Texto"
             ),
           })}
@@ -36,11 +48,12 @@ export default function NewPost() {
             // if (params.id) {
             //   await updatePost(params.id, values);
             // } else {
-            //   await createPost(values);
+              console.log(values);
+              await createPost(values);
             // }
             actions.setSubmitting(false)
             //    una vez creado el post no redireccina al home
-            //navigate("/");
+           navigate("/");
           }}
           enableReinitialize={true}
         >
@@ -61,7 +74,7 @@ export default function NewPost() {
                 name="title"
               />
               <label
-                htmlFor="description"
+                htmlFor="body"
                 className="text-sm block text-gray-400"
               >
                 Description
@@ -69,25 +82,25 @@ export default function NewPost() {
               <Field
                 component="textarea"
                 rows="5"
-                name="description"
+                name="body"
                 placeholder="description"
                 className="px-3 py-2 rounded focus:outline-none bg-gray-600 text-white w-full block"
               ></Field>
               <ErrorMessage
                 component="p"
                 className="text-red-600 text-sm"
-                name="description"
+                name="body"
               />
               <label htmlFor="title" className="text-sm block text-gray-400">
                 Image
               </label>
-              <input
+              {/* <input
               onChange={(e)=> setFieldValue('image',e.target.files[0])}
                 type="file"
                 name="image"
                 id=""
                 className="px-3 py-2 focus:outline-none rounded bg-gray-600 text-white w-full"
-              />
+              /> */}
 
               <button
                 type="submit"

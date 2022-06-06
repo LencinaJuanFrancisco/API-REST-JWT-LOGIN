@@ -15,9 +15,9 @@ const listAll = async (req, res, next) => {
 }
 const addOne = async (req, res, next) => {
     const cleanBody = matchedData(req);
-    const rtaAdd = await addNewPost({ userid: req.user.id, ...cleanBody })
+    const rtaAdd = await addNewPost({ userid: 2, ...cleanBody })
     rtaAdd instanceof Error ? next(rtaAdd)
-        : res.status(200).json({ message: `Post creado por ${req.user.name}` })
+        : res.status(200).json({ message: `Post creado` })
 
 }
 const editOne = async (req, res, next) => {

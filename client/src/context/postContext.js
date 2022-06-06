@@ -1,5 +1,5 @@
-import { useState, createContext, useContext } from "react";
-import { getPosReq} from '../api/posts'
+import { useState, createContext, useContext,useEffect } from "react";
+import { getPosReq,deletePostRequest, createPostReq} from '../api/posts'
 
 const postContext = createContext()
 
@@ -9,28 +9,36 @@ export const usePosts=()=>{
 }
 
 export const PostProvider=({children})=>{
-    const [posts, setPosts] = useState([{
-        id:1,
-        title:"hola mundo",
-        body:"sarasa"
-    },{
-     id:2,
-     title:"chau mundo",
-     body:"sarasa"
- },{
-     id:3,
-     title:"otro mundo",
-     body:"sarasa"
- }]);
+    const [posts, setPosts] = useState([]);
 
-    const getPost= async()=>{
+    const getPosts= async()=>{
         const res = await getPosReq()
         console.log(res);
         setPosts(res.data)
     }
+    const deletePost = async (id) =>{
+      try {
+          await deletePostRequest(id)
+          //buscamos el post para actualizar el estado 
+          setPosts(posts.filter(post => post.id !== id))
+          
+      } catch (error) {
+          console.log(error);
+      }  
+      }
+    const createPost=async(post)=>{
+      const res= await createPostReq(post)
+      console.log("create post",res.data);
+        setPosts([...posts,res.data])
+        
+    }
+
+    useEffect(() => {
+        getPosts();
+      }, []);
     return(
         <postContext.Provider value={{
-            getPost,posts
+            getPosts,posts,setPosts,deletePost,createPost
         }}>
             {children}
         </postContext.Provider>

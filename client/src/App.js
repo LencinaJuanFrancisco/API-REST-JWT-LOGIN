@@ -5,6 +5,7 @@ import Home from './pages/Home';
 import NotFound from './pages/NotFound';
 import NewPost from './pages/NewPost'
 import {PostProvider} from './context/postContext'
+import {Toaster} from 'react-hot-toast'
 
 function App() {
   return (
@@ -15,8 +16,10 @@ function App() {
         <Route path='/' element={<Home/>} />
         <Route path='/login' element={<Login/>}/>
         <Route path='/newPost' element={<NewPost/>}/>
+        <Route path='/newPost/:id' element={<NewPost/>}/>
         <Route path='*' element={<NotFound/>}/>
       </Routes>
+      <Toaster></Toaster>
       </PostProvider>
     </div>
   );

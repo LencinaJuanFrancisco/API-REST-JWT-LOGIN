@@ -6,7 +6,7 @@ import PostCard from '../component/PostCard'
 
 export default function Home() {
   const {posts}=usePosts()
-  console.log(posts);
+  // console.log(posts);
   return (
     <div>
         <div className='flex justify-end text-center'>
@@ -19,7 +19,7 @@ export default function Home() {
         </div>
         <div className="columns-4 gap-3 w-[1200px] mx-auto space-y-3 p-5 pb-5 bg-slate-700 f">
           {posts.map((post) => (
-            <PostCard post={post} key={post.id} />
+            <PostCard key={post.id} post={post}  />
           ))}
         </div>
 

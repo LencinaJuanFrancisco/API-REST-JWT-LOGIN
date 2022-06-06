@@ -18,10 +18,11 @@ export const deletePostRequest = async (id)=>{
     } catch (error) {
        console.log(error)    }
 } 
-export const createPostReq= async(post)=>{
+export const createPostReq = async(post)=>{
     try {
-        const res = await axios.post('/posts',post)
-        console.log('axios', res);
+        console.log('entre al createPost y esto vino', post);
+        const res = await axios.post("/posts",post)
+        console.log('axios', res.data);
         return res
     } catch (error) {
         console.log(error);

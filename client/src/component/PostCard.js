@@ -51,7 +51,7 @@ function PostCard({ post }) {
       <img className="h-40 object-cover rounded-xl" src={image} />
       <div className="p-2 w-60">
         <h2 className="font-bold text-lg mb-2 ">{post.title}</h2>
-
+        <h2 className="font-bold text-lg mb-2 ">{post.id}</h2>
         <p className="mt-4 p-1 w-full text-sm leading-6 col-start-1 sm:col-span-2 lg:mt-6 lg:row-start-4 lg:col-span-1 dark:text-slate-400 ">{post.body}</p>
       </div>
       <div className="flex justify-between">

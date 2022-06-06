@@ -7,14 +7,26 @@ import {AiOutlineLoading3Quarters} from 'react-icons/ai'
 
 
 export default function NewPost() {
-const {createPost}= usePosts()
+const {createPost,getPost,updatePost}= usePosts()
 const navigate= useNavigate()
+const params = useParams();
 // creamos un useState para manejar los valores del post cuando queremos editar, asi , cuando viene la inforacion que queremos editar podemos modificar el valor inicial da los initialValues del FORMIK
 const [post, setPost] = useState({
+  userid:2,
   title: "",
   body: "",
   // image: null,
 });
+useEffect(() => {
+  // si tiene id , es xq queremos actualizar.
+  // cramos una funcion "autoinvocada" ya que la funcion del useEffect no permite utilizar async de forma directa. Luego, automaticamente que cerramos la funcion , la ejecutamos, ()
+  (async () => {
+    if (params.id) {
+      const res = await getPost(params.id);
+      setPost(res);
+    }
+  })();
+}, [params.id]);
 
   return (
     <div className="h-screen w-full bg-gray-900">
@@ -45,12 +57,13 @@ const [post, setPost] = useState({
             //para hace vamos a usar un condicional para verificar si existe un params, asi, de esta forma podemos
             // identificar si es un update o un create
             //console.log(values)
-            // if (params.id) {
-            //   await updatePost(params.id, values);
-            // } else {
-              console.log(values);
+            if (params.id) {
+              await updatePost(params.id, values);
+            } else {
+              console.log('este es el values',values);
               await createPost(values);
-            // }
+            
+            }
             actions.setSubmitting(false)
             //    una vez creado el post no redireccina al home
            navigate("/");
@@ -106,7 +119,7 @@ const [post, setPost] = useState({
                 type="submit"
                 disabled={isSubmitting}
                 className="w-full my-5 py-2 bg-teal-500 shadow-lg shadow-teal-500/60 hover:shadow-teal-500/30 text-white font-semibold rounded-lg"
-              >
+              > 
                 {isSubmitting ? (
                   <AiOutlineLoading3Quarters className="animate-spin h-5 w-5 text-center" />
                 ): 'Save'}

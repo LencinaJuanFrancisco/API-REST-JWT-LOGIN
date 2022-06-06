@@ -9,7 +9,7 @@ import {Toaster} from 'react-hot-toast'
 
 function App() {
   return (
-    <div className="App">
+    <div className="App bg-slate-700">
       <PostProvider>
 
       <Routes>

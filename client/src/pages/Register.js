@@ -1,5 +1,5 @@
 import React from "react";
-import loginImage from "../img/flores-640-427.jpg";
+import loginImage from "../img/laptop.jpg";
 import { Link } from "react-router-dom";
 import { Formik, Form, Field } from "formik"; //, ErrorMessage
 import { useUsers } from "../context/usersContext";

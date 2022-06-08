@@ -23,18 +23,18 @@ const columns = [
 //personalizacion de thema
 createTheme('custom', {
     text: {
-      primary: '#268bd2',
-      secondary: '#2aa198',
+      primary: '#FCDAB7',
+      secondary: '#F15412',
     },
     background: {
-      default: '#002b36',
+      default: '#1D2D50',
     },
     context: {
-      background: '#cb4b16',
-      text: '#FFFFFF',
+      background: '#151D3B',
+      text: '#7D1E6A',
     },
     divider: {
-      default: '#073642',
+      default: '#F7F7F7',
     },
     action: {
       button: 'rgba(0,0,0,.54)',
@@ -59,15 +59,17 @@ export default function ListUsers() {
           </Link>
         </div>
         <div className='my-15 py-15 bg-slate-700'>
-            <h1 className='text-center text-5xl font-bold text-gray-500 pt-8 pb-5'>Listado de Usuarios</h1>
+            <h1 className='text-center text-5xl font-bold text-gray-500 pt-8 '>Listado de Usuarios</h1>
         </div>
+        <div className='w-[1200px] m-auto p-16'>
+
         <DataTable 
             columns={columns}
             data={data}
             theme='custom'
             pagination
-        
         />
+        </div>
         
     </div>
   )

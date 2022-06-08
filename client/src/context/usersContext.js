@@ -14,8 +14,12 @@ export const UsersProvider =({children})=>{
     const login=async(userLog)=>{
         //console.log('LOGIN->',userLog);
         const res = await loginReq(userLog)
-        //console.log(res.JWT);
-        setUsersLogued(res.JWT)
+        if(res.status === 401){
+            setUsersLogued(res)
+        }else{
+            //console.log(res.JWT);
+            setUsersLogued(res)
+        }
     }
     const getUsers= async()=>{
         const res = await getUsersReq()

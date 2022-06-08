@@ -93,7 +93,7 @@ const login = async (req, res, next) => {
             email: dbResponse[0].email
         }
         const token = await tokenSign(user, "1h")
-        res.status(200).json({ message: "User logged in!", JWT: token })
+        res.status(200).json({status:200,userName:user.email, message: "User logged in!", JWT: token })
     } else {
         let error = new Error("Unauthorized")
         error.status = 401

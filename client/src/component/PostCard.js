@@ -48,7 +48,7 @@ function PostCard({ post }) {
     
       
     >
-      <img className="h-40 object-cover rounded-xl" src={image} />
+      <img className="h-40 object-cover rounded-xl" src={image} alt="generic"/>
       <div className="p-2 w-60">
         <h2 className="font-bold text-lg mb-2 ">{post.id}</h2>
         <h2 className="font-bold text-lg mb-2 ">{post.title}</h2>
@@ -66,7 +66,7 @@ function PostCard({ post }) {
         </button>
         <button
           className="text-white bg-sky-500 px-3 py-1 rounded-md hover:bg-sky-700"
-          onClick={() => navigate(`/newPost/${post.id}`)}
+          onClick={() => navigate(`/editPost/${post.id}`)}
         >
           Edit
         </button>

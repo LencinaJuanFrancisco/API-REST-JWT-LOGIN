@@ -1,5 +1,11 @@
 import { useState, createContext, useContext, useEffect } from "react";
-import { getPosReq, deletePostRequest, createPostReq, updatePostReq ,getOnePostReq} from "../api/posts";
+import {
+  getPosReq,
+  deletePostRequest,
+  createPostReq,
+  updatePostReq,
+  getOnePostReq,
+} from "../api/posts";
 
 const postContext = createContext();
 
@@ -26,31 +32,31 @@ export const PostProvider = ({ children }) => {
     }
   };
   const createPost = async (post) => {
-    console.log('esto es el createPost',post);
+    console.log("esto es el createPost", post);
     try {
-        
-        const res = await createPostReq(post);
-        console.log("create post", res.data);
-        setPosts([...posts, res.data]);
+      const res = await createPostReq(post);
+      console.log("create post", res.data);
+      setPosts([...posts, res.data]);
     } catch (error) {
-        console.log(error);
+      console.log(error);
     }
   };
-  const updatePost = async(id,post)=>{
-    const res = await updatePostReq(id,post)
-    console.log('updatePost--->😎',res);
+  const updatePost = async (id, post) => {
+    const res = await updatePostReq(id, post);
+    //console.log("updatePost--->😎", res);
     //para que se actualize el listado de los post en el home, debemos modificar el estado, al igual que cuando eliminamos o creamos
-    setPosts( posts.map(post => post.id === id ? {res }: post))
-  }
-  const getPost = async (id)=>{
-    const res = await getOnePostReq(id)
-    console.log('getPost->',res);
-    return res
-  }
+    setPosts(posts.map((post) => post.id === id ? res : post ));
+    console.log('despues del setPost 😣',posts);
+  };
+  const getPost = async (id) => {
+    const res = await getOnePostReq(id);
+    console.log("getPost->", res);
+    return res;
+  };
 
   useEffect(() => {
     getPosts();
-  },[]);
+  }, []);
   return (
     <postContext.Provider
       value={{
@@ -60,7 +66,7 @@ export const PostProvider = ({ children }) => {
         deletePost,
         createPost,
         updatePost,
-        getPost
+        getPost,
       }}
     >
       {children}

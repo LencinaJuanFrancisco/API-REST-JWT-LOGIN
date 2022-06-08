@@ -27,7 +27,7 @@ useEffect(() => {
       setPost(res);
     }
   })();
-}, [params.id]);
+}, [params.id,getPost]);
 
   return (
     <div className="h-screen w-full bg-gray-900">
@@ -69,7 +69,7 @@ useEffect(() => {
             //    una vez creado el post no redireccina al home
            navigate("/");
           }}
-          enableReinitialize={true}
+          enableReinitialize={true}//este metodo de Formik , para recargar el formulario, en este caso lo utilizamos para que cuando se modifique el estado cuando editamos, vuelva a cargar el formulario pero con los datos a editar, si lo colocamos en flse, no se carga los datos que tenemos en el estado
         >
           {/* handleSubmit es una funcion propia de FORMIK */}
           {({ handleSubmit, setFieldValue,isSubmitting }) => (

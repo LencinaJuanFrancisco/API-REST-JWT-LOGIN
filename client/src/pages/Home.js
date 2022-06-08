@@ -11,7 +11,9 @@ export default function Home() {
     <div>
         <div className='flex justify-end text-center'>
         <Link to="/login" className="w-20 m-5 py-2 bg-teal-500 shadow-lg shadow-teal-500/60 hover:shadow-teal-500/30 text-white font-semibold rounded-lg">Login</Link>
+        <Link to="/register" className="w-20 m-5 py-2 bg-teal-500 shadow-lg shadow-teal-500/60 hover:shadow-teal-500/30 text-white font-semibold rounded-lg">Register</Link>
         <Link to="/newPost" className="w-20 m-5 py-2 bg-teal-500 shadow-lg shadow-teal-500/60 hover:shadow-teal-500/30 text-white font-semibold rounded-lg">New Post</Link>
+        <Link to="/listUsers" className="w-20 m-5 py-2 bg-teal-500 shadow-lg shadow-teal-500/60 hover:shadow-teal-500/30 text-white font-semibold rounded-lg">List Users</Link>
         </div>
         <div className='my-5'>
         <div className='my-15 py-15 bg-slate-700'>

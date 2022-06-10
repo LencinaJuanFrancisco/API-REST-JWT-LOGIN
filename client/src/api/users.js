@@ -1,5 +1,5 @@
 import axios from "axios";
-
+import { toast} from "react-hot-toast";
 
 export const getUsersReq =async()=>{
     const res = await axios.get('/users')
@@ -9,11 +9,11 @@ export const getUsersReq =async()=>{
 export const loginReq =async(user)=>{
     try {
         const res = await axios.post('/users/login',user)
-        console.log('loginReq--->😎', res.data);
+        console.log('loginReq-->😍',res.data);
         return res.data
         
     } catch (error) {
-        console.log("😎",error.response.data);
-        return await error.response.data
+        console.log("😫😫😫😫😫",error.response.data);
+        return  error.response
     }
 }

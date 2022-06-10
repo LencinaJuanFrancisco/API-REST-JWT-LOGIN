@@ -7,7 +7,8 @@ const image =
   "https://images.unsplash.com/photo-1506744038136-46273834b3fb?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=750&q=80";
 function PostCard({ post }) {
   const { deletePost } = usePosts();
-  const {usersLogued}=useUsers()
+  const {JWT} = useUsers()
+  // const {usersLogued}=useUsers()
   const navigate = useNavigate();
 
   const handelDelete = (id, title) => {
@@ -57,7 +58,7 @@ function PostCard({ post }) {
         <p className="mt-4 p-1 w-full text-sm leading-6 col-start-1 sm:col-span-2 lg:mt-6 lg:row-start-4 lg:col-span-1 dark:text-slate-400 ">{post.body}</p>
       </div>
       <div className="flex justify-between">
-        {usersLogued && <button
+        {JWT && <button
           className="text-white bg-purple-600 px-3 py-1  rounded-md hover:bg-purple-700"
           onClick={(e) => {
             e.stopPropagation();
@@ -66,7 +67,7 @@ function PostCard({ post }) {
         >
           Delete
         </button>}
-        {usersLogued && <button
+        {JWT && <button
           className="text-white bg-sky-500 px-3 py-1 rounded-md hover:bg-sky-700"
           onClick={() => navigate(`/editPost/${post.id}`)}
         >

@@ -6,7 +6,8 @@ import PostCard from "../component/PostCard";
 
 export default function Home() {
   const { posts } = usePosts();
-  const { usersLogued,setUsersLogued } = useUsers();
+  const {userLogued,JWT,logout} = useUsers();
+  
   const [serach, setSearch] = useState("");
 
   const searcher = (e) => {
@@ -23,40 +24,38 @@ export default function Home() {
       dato.title.toLowerCase().includes(serach.toLowerCase())
     );
   }
-  const logout=()=>{
-    setUsersLogued(usersLogued.status=400)
-  }
+  
 
   return (
     <div>
-      <div className="flex justify-around ">
+      <div className="flex justify-around py-1">
+        {JWT &&
         <div>
-        {usersLogued && (
           <button onClick={logout} className="w-20 m-5 py-2 bg-red-500 shadow-lg shadow-red-500/60 hover:shadow-red-500/30 text-white font-semibold rounded-lg">Logout</button>
-        )}
         </div>
-        <div className="">
-        {usersLogued && (
-          <span className="text-teal-500 m-5 py-2 rounded-lg p-1 h-10 ">
-            users logued: {usersLogued.userName}
+        }
+        {JWT && userLogued && <div className="">
+          <img src={userLogued.image} alt="" />
+          <span className="text-gray-200 m-5 py-2 rounded-lg  h-10 ">
+            users logued: <strong>{userLogued.email}</strong>
           </span>
-        )}
         </div>
+        }
         
       </div>
       <div className="flex justify-center text-center">
         
-          {!usersLogued && (
+          {!JWT && 
             <Link
               className="w-20 m-5 py-2 bg-teal-500 shadow-lg shadow-teal-500/60 hover:shadow-teal-500/30 text-white font-semibold rounded-lg"
               to="/login"
             >
               Login
             </Link>
-          )}
+          }
         
        
-            {!usersLogued && <Link
+            {!JWT && <Link
           to="/register"
           className="w-20 m-5 py-2 bg-teal-500 shadow-lg shadow-teal-500/60 hover:shadow-teal-500/30 text-white font-semibold rounded-lg"
         >

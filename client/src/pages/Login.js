@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import loginImage from "../img/laptop.jpg";
 import toast from "react-hot-toast";
 import * as Yup from "yup";
@@ -9,15 +9,12 @@ import { useUsers } from "../context/usersContext";
 
 export default function Login() {
   const navigate = useNavigate
-  const { login,usersLogued } = useUsers();
+  const [userName,setUserName]= useState("")
+  const [password,setPassword] = useState('')
 
-  const isLogued = () => {
-    
-  
-        }
-  
+  const { login,isLoginloading,hasLoginError } = useUsers();
+
  
-
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 h-screen w-full">
       <div className="hidden sm:block">
@@ -27,14 +24,18 @@ export default function Login() {
         
          
         <Formik
-          initialValues={{ email: "", password: "" }}
+          initialValues={{ email:userName, password:password }}
           validationSchema={
             Yup.object({
               email: Yup.string().email("debe ser un tipo de email valido").required('el campo es requerido'),
               password: Yup.string().required('el campo es requerido')
             })}
-          onSubmit={ (values) => {
-             login(values);
+          onSubmit={ async(values) => {
+            setUserName(values.email)
+            setPassword(values.password)
+            await login(values)
+            
+
           }}
         >
           {({handleSubmit}) => (
@@ -60,6 +61,7 @@ export default function Login() {
               <div className="flex flex-col text-gray-400 py-2">
                 <label htmlFor="email">User Name</label>
                 <Field
+                  component='input'
                   name="email"
                   type="text"
                   className="rounded-lg  bg-gray-700 mt-2 p-2 focus:border-blue-500 focus:bg-gray-800 focus:outline-none "
@@ -90,12 +92,17 @@ export default function Login() {
               <button
               onClick={(e) => {
                 e.stopPropagation()
-                isLogued()}}
+                
+               
+               }}
                type="submit"
                 className="w-full my-5 py-2 bg-teal-500 shadow-lg shadow-teal-500/60 hover:shadow-teal-500/30 text-white font-semibold rounded-lg"
               >
                 Sign in
               </button>
+              {hasLoginError && <strong className="text-red-500">Credenciales invalidad</strong>}
+              {isLoginloading && <span className="text-white">Loading ....... </span>}
+              
             </Form>
           )}
         </Formik>

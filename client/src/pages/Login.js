@@ -5,6 +5,7 @@ import * as Yup from "yup";
 import { Link ,useNavigate} from "react-router-dom";
 import { Formik, Form, Field ,ErrorMessage} from "formik"; //, ErrorMessage
 import { useUsers } from "../context/usersContext";
+import {AiOutlineLoading3Quarters} from 'react-icons/ai'
 
 
 export default function Login() {
@@ -12,9 +13,10 @@ export default function Login() {
   const [userName,setUserName]= useState("")
   const [password,setPassword] = useState('')
 
-  const { login,isLoginloading,hasLoginError } = useUsers();
 
- 
+  const { login,isLoginloading,hasLoginError,userRegister,errorMessage } = useUsers();
+
+
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 h-screen w-full">
       <div className="hidden sm:block">
@@ -24,7 +26,8 @@ export default function Login() {
         
          
         <Formik
-          initialValues={{ email:userName, password:password }}
+        initialValues={{ email:userRegister.email || "", password:"" }}
+          // initialValues={{ email:userRegister.email, password:password }}
           validationSchema={
             Yup.object({
               email: Yup.string().email("debe ser un tipo de email valido").required('el campo es requerido'),
@@ -64,6 +67,7 @@ export default function Login() {
                   component='input'
                   name="email"
                   type="text"
+                 
                   className="rounded-lg  bg-gray-700 mt-2 p-2 focus:border-blue-500 focus:bg-gray-800 focus:outline-none "
                 />
                 <ErrorMessage
@@ -76,6 +80,7 @@ export default function Login() {
                 <label htmlFor="password">Password</label>
                 <Field
                   name="password"
+                 
                   className="rounded-lg bg-gray-700 mt-2 p-2 focus:border-blue-500 focus:bg-gray-800 focus:outline-none "
                   type="password"
                 />
@@ -100,8 +105,8 @@ export default function Login() {
               >
                 Sign in
               </button>
-              {hasLoginError && <strong className="text-red-500">Credenciales invalidad</strong>}
-              {isLoginloading && <span className="text-white">Loading ....... </span>}
+              {hasLoginError && <strong className="text-red-500">{errorMessage}</strong>}
+              {isLoginloading && <AiOutlineLoading3Quarters className="animate-spin h-5 w-5 text-center text-teal-500 " />}
               
             </Form>
           )}

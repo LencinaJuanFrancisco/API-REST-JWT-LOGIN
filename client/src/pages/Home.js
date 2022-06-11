@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { usePosts } from "../context/postContext";
 import { useUsers } from "../context/usersContext";
 import PostCard from "../component/PostCard";
+import img from '../img/avataaars.svg'
 
 export default function Home() {
   const { posts } = usePosts();
@@ -34,11 +35,16 @@ export default function Home() {
           <button onClick={logout} className="w-20 m-5 py-2 bg-red-500 shadow-lg shadow-red-500/60 hover:shadow-red-500/30 text-white font-semibold rounded-lg">Logout</button>
         </div>
         }
-        {JWT && userLogued && <div className="">
-          <img src={userLogued.image} alt="" />
+        {JWT && userLogued && <div className="flex justify-end p-5">
+          <div>
+            <img src={img} alt="" className="w-7 h-7"/>
+          </div>
+          <div>
           <span className="text-gray-200 m-5 py-2 rounded-lg  h-10 ">
             users logued: <strong>{userLogued.email}</strong>
           </span>
+
+          </div>
         </div>
         }
         
@@ -63,18 +69,18 @@ export default function Home() {
         </Link>}
         
         
-        <Link
+        {JWT &&<Link
           to="/newPost"
           className="w-20 m-5 py-2 bg-teal-500 shadow-lg shadow-teal-500/60 hover:shadow-teal-500/30 text-white font-semibold rounded-lg"
         >
           New Post
-        </Link>
-        <Link
+        </Link>}
+        {JWT &&<Link
           to="/listUsers"
           className="w-20 m-5 py-2 bg-teal-500 shadow-lg shadow-teal-500/60 hover:shadow-teal-500/30 text-white font-semibold rounded-lg"
         >
           List Users
-        </Link>
+        </Link>}
       </div>
       <div className="my-5">
         <div className="my-15 py-15 bg-slate-700">

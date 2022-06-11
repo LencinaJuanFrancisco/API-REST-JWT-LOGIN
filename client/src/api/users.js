@@ -17,3 +17,14 @@ export const loginReq =async(user)=>{
         return  error.response
     }
 }
+ export const createUserReq=async(user)=>{
+            const form = new FormData()
+            for (let key in user){
+                form.append(key,user[key])
+            }
+            return await axios.post('/users/register',form,{
+                headers:{
+                    "content-Type":"multipart/form-data"
+                }
+            })
+ }

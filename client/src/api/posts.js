@@ -27,7 +27,7 @@ export const createPostReq = async(post)=>{
     try {
         console.log('entre al createPost y esto vino', post);
         const res = await axios.post("/posts",post)
-        console.log('axios', res.data);
+        //console.log('axios', res.data);
         return res
     } catch (error) {
         console.log(error);

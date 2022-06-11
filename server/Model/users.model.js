@@ -19,6 +19,15 @@ const getUserById = (id, user) => {
         return error
     }
 }
+const getUserByEmail = (email, user) => {
+    const query = `SELECT * FROM users WHERE email = '${email}'`
+    try {
+        return pool.query(query, user)
+    } catch (error) {
+        error.message = error.code
+        return error
+    }
+}
 const addNewUser = (user) => {
     const query = `INSERT INTO users SET ?`
     try {
@@ -58,4 +67,4 @@ const editUserById = (id, user) => {
     }
 }
 
-module.exports = { getAllUsers, getUserById, addNewUser, deleteUserById, editUserById, loginUser }
+module.exports = { getAllUsers, getUserById, addNewUser, deleteUserById, editUserById, loginUser,getUserByEmail }

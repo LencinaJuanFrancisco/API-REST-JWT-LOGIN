@@ -1,6 +1,7 @@
 const {
   getAllUsers,
   getUserById,
+  getUserByEmail,
   addNewUser,
   deleteUserById,
   editUserById,
@@ -73,20 +74,37 @@ const deleteOne = async (req, res, next) => {
 
 const register = async (req, res, next) => {
   const cleanBody = matchedData(req);
+  if (await getUserByEmail(req.body.email)) return res.status(204).json({status:204,message:"Usuario ya registrado"})
+  if(req.file){
+    const image = `${public_url}/${req.file.filename}`;
+    const password = await encrypt(req.body.password);
+    const rtaRegister = await addNewUser({ ...cleanBody, password, image });
+    if (rtaRegister instanceof Error) return next(rtaRegister);
+    const user = {
+      id: rtaRegister.insertId,
+      name: cleanBody.name,
+      email: cleanBody.email,
+    };
+    const token = await tokenSign(user, "1h");
+    const newUser = await getUserByEmail(req.body.email)
+  
+    res.status(201).json({ message: "User Created", JWT: token ,user:newUser});
+  }else{
+    const password = await encrypt(req.body.password);
+    const rtaRegister = await addNewUser({ ...cleanBody, password});
+    if (rtaRegister instanceof Error) return next(rtaRegister);
+    const user = {
+      id: rtaRegister.insertId,
+      name: cleanBody.name,
+      email: cleanBody.email,
+    };
+    //console.log(user);
+    const token = await tokenSign(user, "1h");
+    const newUser = await getUserByEmail(req.body.email)
+    res.status(201).json({ message: "User Created", JWT: token ,user:newUser});
+  }
 
-  const image = `${public_url}/${req.file.filename}`;
-  const password = await encrypt(req.body.password);
-  const rtaRegister = await addNewUser({ ...cleanBody, password, image });
-  if (rtaRegister instanceof Error) return next(rtaRegister);
 
-  const user = {
-    id: rtaRegister.insertId,
-    name: cleanBody.name,
-    email: cleanBody.email,
-  };
-  //console.log(user);
-  const token = await tokenSign(user, "1h");
-  res.status(201).json({ message: "User Created", JWT: token });
 };
 const login = async (req, res, next) => {
   //console.log('estoy en log lpm');

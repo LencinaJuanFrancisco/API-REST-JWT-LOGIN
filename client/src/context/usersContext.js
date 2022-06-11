@@ -6,7 +6,7 @@ import React, {
   useCallback,
 } from "react";
 import {useNavigate} from 'react-router-dom'
-import { loginReq, getUsersReq } from "../api/users";
+import { loginReq, getUsersReq ,createUserReq} from "../api/users";
 const userContext = createContext();
 
 export const useUsers = () => {
@@ -16,10 +16,11 @@ export const useUsers = () => {
 
 export const UsersProvider = ({ children }) => {
  const navigate = useNavigate()
-  const [state, setState] = useState({ loading: false, error: false });
+  const [state, setState] = useState({ loading: false, error: false, errorMessage:"" });
   const [JWT, setJWT] = useState(null);
   const [users, setUsers] = useState();
-  const [userLogued,setUserLogued] = useState([])
+  const [userLogued,setUserLogued] = useState([])//pongo los datos del usuario loguedado
+  const [userRegister,setUserRegiste]=useState('')//creo este estado asi, una ves registrodo lo redirecciono al login y carlo los datos sel usuario sin volver a solicitarlos
 
   const login = async (userLog) => {
    
@@ -33,12 +34,26 @@ export const UsersProvider = ({ children }) => {
        
         navigate('/')
     } else {
-          setState({ loading: false, error: true });
+          setState({ loading: false, error: true ,errorMessage:"Algunos datos son incorrectos"});
         
       }
       //return res.data;
    
   };
+  const createUser=async(user)=>{
+    try{
+      const res = await createUserReq(user)
+      if(res.status === 204){
+        setState({ loading: false, error: true ,errorMessage:"Usuario ya registrado "});
+      }else{
+       setUsers([...users,res.data.user[0]])
+       setUserRegiste(res.data.user[0])
+       navigate('/login')
+      }
+    }catch(error){
+      console.error(error)
+    }
+  }
   const getUsers = async () => {
     const res = await getUsersReq();
     setUsers(res);
@@ -63,7 +78,10 @@ export const UsersProvider = ({ children }) => {
         setJWT,
         isLoginloading: state.loading,
         hasLoginError: state.error,
+        errorMessage:state.errorMessage,
         logout,
+        createUser,
+        userRegister,setUserRegiste
       }}
     >
       {children}

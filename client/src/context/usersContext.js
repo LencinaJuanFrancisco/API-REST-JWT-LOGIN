@@ -34,7 +34,7 @@ export const UsersProvider = ({ children }) => {
        
         navigate('/')
     } else {
-          setState({ loading: false, error: true ,errorMessage:"Algunos datos son incorrectos"});
+          setState({ loading: false, error: true ,errorMessage:res.data.message});
         
       }
       //return res.data;
@@ -42,12 +42,18 @@ export const UsersProvider = ({ children }) => {
   };
   const createUser=async(user)=>{
     try{
+      console.log('entre al menos al createUser?---');
+      setState({ loading: true, error: false,errorMessage:"" });
       const res = await createUserReq(user)
-      if(res.status === 204){
-        setState({ loading: false, error: true ,errorMessage:"Usuario ya registrado "});
+      console.log('crete----',res.status);
+      if(res.status === 400){
+        console.log('---- y ---- ');
+        setState({ loading: false, error: true ,errorMessage:res.message});
       }else{
-       setUsers([...users,res.data.user[0]])
-       setUserRegiste(res.data.user[0])
+        console.log('para grear usuario', res);
+        setState({ loading: false, error: false ,errorMessage:""});
+       setUsers([...users,res.user[0]])
+       setUserRegiste(res.user[0])
        navigate('/login')
       }
     }catch(error){
@@ -61,9 +67,11 @@ export const UsersProvider = ({ children }) => {
   const logout = useCallback(() => {
     setJWT(null);
   }, [setJWT]);
+
   useEffect(() => {
     getUsers();
   }, []);
+ 
 
   return (
     <userContext.Provider

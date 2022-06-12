@@ -1,4 +1,4 @@
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route ,useNavigate} from "react-router-dom";
 import "./App.css";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
@@ -10,7 +10,9 @@ import { PostProvider } from "./context/postContext";
 import { UsersProvider } from "./context/usersContext";
 import { Toaster } from "react-hot-toast";
 
+
 function App() {
+
   return (
     <div className="App bg-slate-700 ">
       <UsersProvider>
@@ -26,7 +28,7 @@ function App() {
           </Routes>
           <Toaster></Toaster>
         </PostProvider>
-      </UsersProvider>
+        </UsersProvider>
     </div>
   );
 }

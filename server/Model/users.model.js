@@ -19,10 +19,10 @@ const getUserById = (id, user) => {
         return error
     }
 }
-const getUserByEmail = (email, user) => {
+const getUserByEmail = (email) => {
     const query = `SELECT * FROM users WHERE email = '${email}'`
     try {
-        return pool.query(query, user)
+        return pool.query(query)
     } catch (error) {
         error.message = error.code
         return error

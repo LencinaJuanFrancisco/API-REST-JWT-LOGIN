@@ -74,37 +74,34 @@ const deleteOne = async (req, res, next) => {
 
 const register = async (req, res, next) => {
   const cleanBody = matchedData(req);
-  if (await getUserByEmail(req.body.email)) return res.status(204).json({status:204,message:"Usuario ya registrado"})
-  if(req.file){
-    const image = `${public_url}/${req.file.filename}`;
-    const password = await encrypt(req.body.password);
-    const rtaRegister = await addNewUser({ ...cleanBody, password, image });
-    if (rtaRegister instanceof Error) return next(rtaRegister);
-    const user = {
-      id: rtaRegister.insertId,
-      name: cleanBody.name,
-      email: cleanBody.email,
-    };
-    const token = await tokenSign(user, "1h");
-    const newUser = await getUserByEmail(req.body.email)
+  try {
+    if (req.file) {
+      const image = `${public_url}/${req.file.filename}`;
+      const password = await encrypt(req.body.password);
+      const rtaRegister = await addNewUser({ ...cleanBody, password, image });
+      if (rtaRegister instanceof Error) return next(rtaRegister);
   
-    res.status(201).json({ message: "User Created", JWT: token ,user:newUser});
-  }else{
-    const password = await encrypt(req.body.password);
-    const rtaRegister = await addNewUser({ ...cleanBody, password});
-    if (rtaRegister instanceof Error) return next(rtaRegister);
-    const user = {
-      id: rtaRegister.insertId,
-      name: cleanBody.name,
-      email: cleanBody.email,
-    };
-    //console.log(user);
-    const token = await tokenSign(user, "1h");
-    const newUser = await getUserByEmail(req.body.email)
-    res.status(201).json({ message: "User Created", JWT: token ,user:newUser});
+      const newUser = await getUserByEmail(req.body.email);
+      console.log('cree uno CON imagen');
+      res.status(201).json({status:201, message: "User Created", user: newUser });
+    } else {
+      const password = await encrypt(req.body.password);
+      const rtaRegister = await addNewUser({ ...cleanBody, password });
+      if (rtaRegister instanceof Error) return next(rtaRegister);
+  
+      const newUser = await getUserByEmail(req.body.email);
+      console.log('cree uno SIN imagen');
+      res.status(201).json({status:201, message: "User Created", user: newUser });
+    }
+  } catch (error) {
+    console.log("son iguales");
+    return res
+      .status(400)
+      .json({ status: 400, message: "Usuario ya registrado" });
   }
-
-
+  // console.log(verifyEmail);
+  
+  
 };
 const login = async (req, res, next) => {
   //console.log('estoy en log lpm');
@@ -119,14 +116,12 @@ const login = async (req, res, next) => {
     };
     const token = await tokenSign(user, "1h");
     const rtaListOne = await getUserById(user.id);
-    res
-      .status(200)
-      .json({
-        status:200,
-        message: "User logged in!",
-        JWT: token,
-        user: rtaListOne
-      });
+    res.status(200).json({
+      status: 200,
+      message: "User logged in!",
+      JWT: token,
+      user: rtaListOne,
+    });
   } else {
     let error = new Error("Unauthorized");
     error.status = 401;
@@ -166,11 +161,9 @@ const forgot = async (req, res, next) => {
       error.message = "Internal Server Error";
       res.next(error);
     } else
-      res
-        .status(200)
-        .json({
-          message: `Hi ${user.name}, we've sent an email with instructions to ${user.email}... Hurry up!`,
-        });
+      res.status(200).json({
+        message: `Hi ${user.name}, we've sent an email with instructions to ${user.email}... Hurry up!`,
+      });
   });
 };
 //FORM -> reset password

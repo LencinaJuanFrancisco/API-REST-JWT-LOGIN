@@ -27,7 +27,7 @@ export const createUserReq = async (user) => {
         "content-Type": "multipart/form-data",
       },
     });
-    if (res.data.status != 201) {
+    if (res.data.status !== 201) {
       console.log("entre a la cuestion del error", res.response.data);
       return res.response.data;
     }
@@ -40,3 +40,12 @@ export const createUserReq = async (user) => {
     return error.response.data;
   }
 };
+export const deleteUserReq= async(id)=>{
+    try {
+        const res = await axios.delete(`/users/${id}`)
+        console.log('deleteUserReq',res);
+        return res
+    } catch (error) {
+        console.log('error en el TRY de deleteUserReq',error);
+    }
+}

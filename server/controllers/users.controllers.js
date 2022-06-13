@@ -82,7 +82,7 @@ const register = async (req, res, next) => {
       if (rtaRegister instanceof Error) return next(rtaRegister);
   
       const newUser = await getUserByEmail(req.body.email);
-      console.log('cree uno CON imagen');
+      //console.log('cree uno CON imagen');
       res.status(201).json({status:201, message: "User Created", user: newUser });
     } else {
       const password = await encrypt(req.body.password);
@@ -90,11 +90,11 @@ const register = async (req, res, next) => {
       if (rtaRegister instanceof Error) return next(rtaRegister);
   
       const newUser = await getUserByEmail(req.body.email);
-      console.log('cree uno SIN imagen');
+      //console.log('cree uno SIN imagen');
       res.status(201).json({status:201, message: "User Created", user: newUser });
     }
   } catch (error) {
-    console.log("son iguales");
+    //console.log("son iguales");
     return res
       .status(400)
       .json({ status: 400, message: "Usuario ya registrado" });

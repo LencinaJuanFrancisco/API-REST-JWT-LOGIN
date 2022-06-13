@@ -6,7 +6,7 @@ import React, {
   useCallback,
 } from "react";
 import {useNavigate} from 'react-router-dom'
-import { loginReq, getUsersReq ,createUserReq} from "../api/users";
+import { loginReq, getUsersReq ,createUserReq,deleteUserReq} from "../api/users";
 const userContext = createContext();
 
 export const useUsers = () => {
@@ -72,6 +72,13 @@ export const UsersProvider = ({ children }) => {
     getUsers();
   }, []);
  
+  const deleteUser= async(id)=>{
+    const res= await deleteUserReq(id)
+    console.log('deleteUser--->', res);
+     //buscamos el post para actualizar el estado 
+    setUsers(users.filter(user=> user.id !== id)) 
+
+  }
 
   return (
     <userContext.Provider
@@ -89,7 +96,8 @@ export const UsersProvider = ({ children }) => {
         errorMessage:state.errorMessage,
         logout,
         createUser,
-        userRegister,setUserRegiste
+        userRegister,setUserRegiste,
+        deleteUser
       }}
     >
       {children}

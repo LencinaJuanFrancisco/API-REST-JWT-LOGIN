@@ -17,11 +17,13 @@ export const usePosts = () => {
 export const PostProvider = ({ children }) => {
   const [posts, setPosts] = useState([]);
 
-  const getPosts = async () => {
-    const res = await getPosReq();
-    //console.log(res);
-    setPosts(res.data);
-  };
+  // const getPosts = async () => {
+  //   const res = await getPosReq();
+  //   //console.log(res);
+  //   setPosts(res.data);
+  // };
+
+
   const deletePost = async (id) => {
     try {
       await deletePostRequest(id);
@@ -31,6 +33,7 @@ export const PostProvider = ({ children }) => {
       console.log(error);
     }
   };
+
   const createPost = async (post) => {
     console.log("esto es el createPost", post);
     try {
@@ -41,26 +44,50 @@ export const PostProvider = ({ children }) => {
       console.log(error);
     }
   };
+
   const updatePost = async (id, post) => {
-    const res = await updatePostReq(id, post);
-    console.log("updatePost--->😎", res);
+   const res =  await updatePostReq(id, post);
+    console.log("updatePost--->😎",res);
     //para que se actualize el listado de los post en el home, debemos modificar el estado, al igual que cuando eliminamos o creamos
-    setPosts(posts.map((post) => post.id === id ? res : post ));
-    //console.log('despues del setPost 😣',posts);
+    setPosts(posts.map(item => {
+      if(item.id === id){
+        item = res.data
+        
+      }
+      return item
+    }))
+  
+    // updatePostReq(id,post)
+    // getPosReq(setPosts)
+      
+  
+    console.log("despues del setPost 😣", posts);
   };
+
+
   const getPost = async (id) => {
     const res = await getOnePostReq(id);
     console.log("getPost->", res);
     return res;
   };
 
-  useEffect(() => {
-    getPosts();
-  }, []);
+
+ useEffect(()=>{
+   getPosReq(setPosts)
+ },[])
+
+
+  // useEffect(() => {
+  //   (async () => {
+  //     const res = await getPosReq();
+  //     setPosts(res.data);
+  //   })();
+  // }, []);
+
   return (
     <postContext.Provider
       value={{
-        getPosts,
+       
         posts,
         setPosts,
         deletePost,

@@ -42,6 +42,7 @@ const listOne = async (req, res, next) => {
     email,
     image,
   };
+  //console.log('listOne',rta);
   res.status(200).json(rta);
 };
 const editOne = async (req, res, next) => {
@@ -49,16 +50,19 @@ const editOne = async (req, res, next) => {
   if (req.file != undefined) {
     try {
       const image = `${public_url}/${req.file.filename}`;
-      await editUserById(+req.params.id, { ...req.body, image });
-      res.status(200).json({ message: "User Modified!" });
+      const password = await encrypt(req.body.password);
+      await editUserById(+req.params.id, { ...req.body,password, image });
+      res.status(200).json({status:200, message: "User Modified!", users:{...req.body} });
+      
     } catch (error) {
       next(error);
       // if (rtaEditOne instanceof Error) return next(rtaEditOne)
     }
   } else {
     try {
-      await editUserById(+req.params.id, { ...req.body });
-      res.status(200).json({ message: "User Modified!" });
+      const password = await encrypt(req.body.password);
+      await editUserById(+req.params.id, { ...req.body,password });
+      res.status(200).json({status:200, message: "User Modified!", users:{...req.body} });
     } catch (error) {
       next(error);
     }
@@ -128,6 +132,7 @@ const login = async (req, res, next) => {
     next(error);
   }
 };
+
 var transport = nodemailer.createTransport({
   host: "smtp.mailtrap.io",
   port: 2525,

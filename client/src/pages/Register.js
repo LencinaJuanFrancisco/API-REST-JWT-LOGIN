@@ -1,19 +1,47 @@
-import React from "react";
+import React, { useEffect , useState} from "react";
 import loginImage from "../img/laptop.jpg";
-import { Link } from "react-router-dom";
+import { Link,useParams,useNavigate } from "react-router-dom";
 import { Formik, Form, Field,ErrorMessage } from "formik"; //, ErrorMessage
 
 import { useUsers } from "../context/usersContext";
 import * as Yup from "yup";
 
 
+
 export default function Login() {
-  const { login,createUser,errorMessage,hasLoginError } = useUsers();
+ 
+  const params = useParams()
+  const navigate = useNavigate()
+  const { createUser,errorMessage,hasLoginError,getUser,updateUser } = useUsers();
+
+  // creamos un useState para manejar los valores del post cuando queremos editar, asi , cuando viene la inforacion que queremos editar podemos modificar el valor inicial da los initialValues del FORMIK
+  const [user, setUser] = useState({
+    name: "",
+    email: "",
+    password:"",
+    image: "",
+  });
+//verificamos si viene alguna paramatro (params) para ver si vamos a usar el formulario para crear o editar, ya que si lo vamos a editar vamos a cargar la informacion en los input (Field)
+  useEffect(()=>{
+    // si tiene id , es xq queremos actualizar.
+    // cramos una funcion "autoinvocada" ya que la funcion del useEffect no permite utilizar async de forma directa. Luego, automaticamente que cerramos la funcion , la ejecutamos, ()
+    (async()=>{
+      if(params.id){
+        const res = await getUser(params.id)
+        console.log('esto me llego al Register', res);
+        setUser(res)
+      }
+    })()
+  },[params.id])
+ 
+
+
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 h-screen w-full">
       <div className="bg-gray-800 flex flex-col justify-center">
         <Formik
-          initialValues={{name:"", email: "", password: "",image:"" }}
+          initialValues={user}
+          
           validationSchema={
             Yup.object({
               name: Yup.string().required("el nombre es requerido").min(2,"el nombre debe contener como minimo 2 caracteres").max(90,"el nombre debe contener un maximo de 90 caracteres"),
@@ -22,9 +50,17 @@ export default function Login() {
             })
           }
           onSubmit={async (values) => {
-            //console.log('CREATE USER',values);
-            await createUser(values)
+            if(params.id){
+              await updateUser(params.id,values)
+            }else{
+              await createUser(values)
+            }
+            navigate('/listUsers')
           }}
+          
+          //esta funcio es de formik, y se utiliza para cargar los datos en el fomulario, es decir, formik carga inicialmete los datos vacios que se encuentran en el initialValue(),
+          //luego cuando queremos editar y cargar con los datos que recogemos con el params, devemos recargar el formulario con los datos obtenido, enableReinitialize 
+          enableReinitialize={true}
         >
           {({ handleSubmit,setFieldValue }) => (
             <Form
@@ -46,7 +82,7 @@ export default function Login() {
                 </Link>
               </header>
               <h2 className="text-4xl text-white font-bold text-center">
-                Register
+               { params.id ? <span>Editar</span> : <span>Register</span> }
               </h2>
               <div className="flex flex-col text-gray-400 py-2">
                 <label htmlFor="">Name</label>
@@ -104,7 +140,7 @@ export default function Login() {
                 type="submit"
                 className="w-full my-5 py-2 bg-teal-500 shadow-lg shadow-teal-500/60 hover:shadow-teal-500/30 text-white font-semibold rounded-lg"
               >
-                Register
+               {params.id ? <span>Edit</span> : <span>Register</span> }
               </button>
               {hasLoginError && <span className="text-red-600 text-sm">{errorMessage}</span>}
             </Form>

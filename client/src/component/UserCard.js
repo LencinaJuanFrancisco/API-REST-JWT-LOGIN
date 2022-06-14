@@ -3,8 +3,10 @@ import React from "react";
 import img from "../img/avataaars.svg";
 import toast from "react-hot-toast";
 import { useUsers } from "../context/usersContext";
+import { useNavigate } from "react-router-dom";
 
 export default function UserCard({ user }) {
+  const navigate = useNavigate()
   const {deleteUser} = useUsers()
 const handelDelete=(id,email)=>{
   toast(
@@ -79,7 +81,7 @@ const handelDelete=(id,email)=>{
             {
               <button
                 className="text-white bg-sky-500 px-3 py-1 rounded-md hover:bg-sky-700"
-                // onClick={() => navigate(`/editPost/${post.id}`)}
+                onClick={() => navigate(`/editUser/${user.id}`)}
               >
                 Edit
               </button>

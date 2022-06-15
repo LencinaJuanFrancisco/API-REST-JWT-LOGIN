@@ -41,13 +41,18 @@ export const UsersProvider = ({ children }) => {
       setState({ loading: false, error: false });
       setJWT(res.JWT);
       setUserLogued(res.user[0]);
-
       navigate("/");
     } else {
       setState({ loading: false, error: true, errorMessage: res.data.message });
     }
    
   };
+  //creo una funcion para actualizar el estado
+const newState=async()=>{
+   const res = await getUsersReq()
+      setUsers(res)
+}
+
   const createUser = async (user) => {
     try {
      // console.log("entre al menos al createUser?---");
@@ -60,7 +65,7 @@ export const UsersProvider = ({ children }) => {
       } else {
         //console.log("para grear usuario", res);
         setState({ loading: false, error: false, errorMessage: "" });
-        setUsers([...users, res.user[0]]);
+        await newState()
         setUserRegiste(res.user[0]);
         navigate("/login");
       }
@@ -81,10 +86,13 @@ export const UsersProvider = ({ children }) => {
   };
   //update User
   const updateUser = async (id,upUser) => {
-    const res = await updateUserReq(id,upUser);
-    console.log('respuesta del contex',res);
-    setUsers(users.map(user=> user.id === id ? {...res} : user))
-    //navigate('/listUsers')
+    try {
+      await updateUserReq(id,upUser);
+      await newState()
+      navigate('/listUsers')
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const logout = useCallback(() => {
@@ -93,8 +101,7 @@ export const UsersProvider = ({ children }) => {
 
   useEffect(() => {
     (async()=>{
-      const res = await getUsersReq()
-      setUsers(res)
+      await newState()
     })()
   }, []);
 

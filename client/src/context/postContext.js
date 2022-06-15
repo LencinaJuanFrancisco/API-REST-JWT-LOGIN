@@ -1,4 +1,6 @@
 import { useState, createContext, useContext, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+
 import {
   getPosReq,
   deletePostRequest,
@@ -15,79 +17,71 @@ export const usePosts = () => {
 };
 
 export const PostProvider = ({ children }) => {
+ 
   const [posts, setPosts] = useState([]);
+  const navigate = useNavigate()
+  //creamos una funcion para actualizar el estado de todos los posts
 
-  // const getPosts = async () => {
-  //   const res = await getPosReq();
-  //   //console.log(res);
-  //   setPosts(res.data);
-  // };
-
+  const newState = async () => {
+    const otraRes = await getPosReq();
+    setPosts(otraRes);
+  };
 
   const deletePost = async (id) => {
     try {
       await deletePostRequest(id);
-      //buscamos el post para actualizar el estado
-      setPosts(posts.filter((post) => post.id !== id));
+      await newState();
     } catch (error) {
       console.log(error);
     }
   };
 
-  const createPost = async (post) => {
-    console.log("esto es el createPost", post);
+  const createPost = async (post,jwt) => {
     try {
-      const res = await createPostReq(post);
-      console.log("create post", res.data);
-      setPosts([...posts, res.data]);
+     const res = await createPostReq(post,jwt);
+      if(res.status === 200){
+        await newState()
+        return res.status
+      }else{
+        return res.response.data
+      }  
+     
     } catch (error) {
       console.log(error);
     }
   };
 
-  const updatePost = async (id, post) => {
-   const res =  await updatePostReq(id, post);
-    console.log("updatePost--->😎",res);
-    //para que se actualize el listado de los post en el home, debemos modificar el estado, al igual que cuando eliminamos o creamos
-    setPosts(posts.map(item => {
-      if(item.id === id){
-        item = res.data
-        
-      }
-      return item
-    }))
-  
-    // updatePostReq(id,post)
-    // getPosReq(setPosts)
+  const updatePost = async (id, post, JWT) => {
+    try {
+      const res =  await updatePostReq(id, post, JWT);
+      //console.log('esto en en el contex',res.response.data);
+      if(res.status === 200){
+        await newState()
+        return res.status
+      }else{
+        return res.response.data
+      }  
+                         
       
-  
-    console.log("despues del setPost 😣", posts);
+    } catch (error) {
+      console.log(error);
+    }
   };
-
 
   const getPost = async (id) => {
     const res = await getOnePostReq(id);
-    console.log("getPost->", res);
     return res;
   };
 
-
- useEffect(()=>{
-   getPosReq(setPosts)
- },[])
-
-
-  // useEffect(() => {
-  //   (async () => {
-  //     const res = await getPosReq();
-  //     setPosts(res.data);
-  //   })();
-  // }, []);
+  useEffect(() => {
+    (async () => {
+      await newState();
+    })();
+  }, []);
 
   return (
     <postContext.Provider
       value={{
-       
         posts,
         setPosts,
         deletePost,

@@ -2,7 +2,7 @@ const { tokenVerify } = require("../utils/handleJWT")
 
 const isAuth = async (req, res, next) => {
     if (!req.headers.authorization) {
-        let error = new Error("No token provided")
+        let error = new Error("Necesita permisos para poder editar")
         error.status = 403
         return next(error)
     }
@@ -10,7 +10,7 @@ const isAuth = async (req, res, next) => {
     const validToken = await tokenVerify(token)
     if (validToken instanceof Error) {
         
-        let error = new Error("Token expired or invalid")
+        let error = new Error("Token expirado")
         error.status = 403
         return next(error)
     }

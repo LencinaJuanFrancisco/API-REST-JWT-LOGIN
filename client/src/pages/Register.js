@@ -55,7 +55,7 @@ export default function Login() {
             }else{
               await createUser(values)
             }
-            navigate('/listUsers')
+            //navigate('/listUsers')
           }}
           
           //esta funcio es de formik, y se utiliza para cargar los datos en el fomulario, es decir, formik carga inicialmete los datos vacios que se encuentran en el initialValue(),

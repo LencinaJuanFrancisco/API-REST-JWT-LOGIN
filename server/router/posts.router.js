@@ -5,10 +5,10 @@ const isAuth = require('../middleware/isAuths')
 const validatorCreatePost = require("../validators/posts.validator")
 
 router.get("/", listAll)
-router.post("/",  validatorCreatePost, addOne)//isAuth,sacamos la utorizacion para verificar el proceso de eliminacion
+router.post("/",isAuth,  validatorCreatePost, addOne)//isAuth
 router.get("/:id", listOne)
-router.put("/:id", validatorCreatePost, editOne)//isAuth,sacamos la utorizacion para verificar el proceso de eliminacion
-router.delete('/:id',  deleteOne) //isAuth,sacamos la utorizacion para verificar el proceso de eliminacion
+router.put("/:id",isAuth, validatorCreatePost, editOne)//isAuth
+router.delete('/:id',isAuth,  deleteOne) //isAuth
 
 
 module.exports = router

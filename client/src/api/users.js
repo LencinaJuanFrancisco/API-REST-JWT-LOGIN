@@ -2,8 +2,13 @@ import axios from "axios";
 
 //all users
 export const getUsersReq = async () => {
-  const res = await axios.get("/users");
-  return res.data;
+  try {
+    const res = await axios.get("/users");
+    return res.data;
+    
+  } catch (error) {
+    return error.response.data;
+  }
 };
 //one user
 export const getUserReq=async(id)=>{
@@ -14,6 +19,7 @@ export const getUserReq=async(id)=>{
         return res.data
     } catch (error) {
         console.log(error);
+        return error.response.data;
     }
 
 }
@@ -22,10 +28,10 @@ export const getUserReq=async(id)=>{
 export const loginReq = async (user) => {
   try {
     const res = await axios.post("/users/login", user);
-    console.log("loginReq-->😍", res.data);
+    //console.log("loginReq-->😍", res.data);
     return res.data;
   } catch (error) {
-    console.log("😫😫😫😫😫", error.response.data);
+    
     return error.response;
   }
 };
@@ -62,7 +68,7 @@ export const deleteUserReq= async(id)=>{
         console.log('deleteUserReq',res);
         return res
     } catch (error) {
-        console.log('error en el TRY de deleteUserReq',error);
+      return error.response.data;
     }
 }
 //update
@@ -82,6 +88,7 @@ export const updateUserReq=async(id,upUser)=>{
         return res.data     
     } catch (error) {
         console.log("se rompio en updateUserReq---",error);
+        return error.response.data;
     }
 
 }

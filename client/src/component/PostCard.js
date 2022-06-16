@@ -22,7 +22,7 @@ function PostCard({ post }) {
             <button
               className="bg-red-600 hover:bg-red-400 px-3 py-2 mx-2 rounded-sm text-white text-sm"
               onClick={() => {
-                deletePost(id);
+                deletePost(id,JWT);
                 toast.dismiss(t.id);
               }}
             >

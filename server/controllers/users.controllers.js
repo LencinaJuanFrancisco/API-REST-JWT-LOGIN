@@ -118,7 +118,7 @@ const login = async (req, res, next) => {
       name: dbResponse[0].name,
       email: dbResponse[0].email,
     };
-    const token = await tokenSign(user, "1m");
+    const token = await tokenSign(user, "10m");
     const rtaListOne = await getUserById(user.id);
     res.status(200).json({
       status: 200,

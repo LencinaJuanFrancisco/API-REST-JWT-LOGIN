@@ -6,7 +6,7 @@ const app = express();
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(express.static('storage'))
+app.use(express.static(path.join(__dirname, 'server/storage')))
 const PORT = process.env.PORT || 3030
 
 /*Bootstrap static files */

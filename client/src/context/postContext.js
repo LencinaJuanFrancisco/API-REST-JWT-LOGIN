@@ -1,5 +1,5 @@
 import { useState, createContext, useContext, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+
 
 import {
   getPosReq,
@@ -9,6 +9,7 @@ import {
   getOnePostReq,
 } from "../api/posts";
 
+import { useUsers } from "./usersContext";
 const postContext = createContext();
 
 export const usePosts = () => {
@@ -19,7 +20,8 @@ export const usePosts = () => {
 export const PostProvider = ({ children }) => {
  
   const [posts, setPosts] = useState([]);
-  const navigate = useNavigate()
+
+  const {setStateError}=useUsers()
   //creamos una funcion para actualizar el estado de todos los posts
 
   const newState = async () => {
@@ -27,44 +29,52 @@ export const PostProvider = ({ children }) => {
     setPosts(otraRes);
   };
 
-  const deletePost = async (id) => {
+  const deletePost = async (id,jwt) => {
     try {
-      await deletePostRequest(id);
-      await newState();
-    } catch (error) {
-      console.log(error);
+      const res =  await deletePostRequest(id,jwt);
+      console.log('delepost',res);
+      if(res === 200){
+        await newState()
+        return res
+      }else{
+        setStateError({error: true, errorMessage:res} )
+      }  
+    } catch (err) {
+      console.log( '🤐 catch deletePost,',err);
+      setStateError({error: true, errorMessage:err.response.data.message} )
     }
   };
 
   const createPost = async (post,jwt) => {
     try {
      const res = await createPostReq(post,jwt);
-      if(res.status === 200){
+      if(res === 200){
         await newState()
-        return res.status
+        return res
       }else{
-        return res.response.data
+        setStateError({error: true, errorMessage:res} )
       }  
      
     } catch (error) {
-      console.log(error);
+      console.log( '🤐 catch cretePost,',error);
+      setStateError({error: true, errorMessage:error.response.data.message} )
     }
   };
 
   const updatePost = async (id, post, JWT) => {
     try {
-      const res =  await updatePostReq(id, post, JWT);
-      //console.log('esto en en el contex',res.response.data);
-      if(res.status === 200){
-        await newState()
-        return res.status
-      }else{
-        return res.response.data
-      }  
-                         
-      
-    } catch (error) {
-      console.log(error);
+      const res = await updatePostReq(id, post, JWT);
+      console.log('update', res);
+     if( res === 200)  {
+       await newState()
+       return res
+     }else{
+       setStateError({error: true, errorMessage:res} )
+
+     }
+    } catch (err) {  
+      setStateError({error: true, errorMessage:err} )
+
     }
   };
 

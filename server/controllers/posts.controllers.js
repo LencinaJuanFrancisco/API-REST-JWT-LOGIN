@@ -39,7 +39,7 @@ const deleteOne = async (req, res, next) => {
     const rtaDelete = await deleteOnePost(+req.params.id)
     if (rtaDelete instanceof Error) return next(rtaDelete)
     //console.log('rtaDeleted------------>', rtaDelete.affectedRows);
-    !rtaDelete.affectedRows ? next() : res.status(205).json({ message: "Posts deleted!" });
+    !rtaDelete.affectedRows ? next() : res.status(200).json({ message: "Posts deleted!" });
 }
 
 module.exports = { listAll, addOne, editOne, listOne, deleteOne }

@@ -1,6 +1,8 @@
 //const url = "https://api-rest-jwt-utn.herokuapp.com"
 import axios from "axios";
 
+
+
 export const getPosReq = async () => {
   try {
     const res =  await axios.get("/posts");
@@ -15,12 +17,17 @@ export const getOnePostReq = async (id) => {
   //console.log("getOnepost", res.data[0]);
   return res.data[0];
 };
-export const deletePostRequest = async (id) => {
+export const deletePostRequest = async (id,jwt) => {
   try {
-    const res = await axios.delete(`/posts/${id}`);
-    return res;
+    const res = await axios.delete(`/posts/${id}`,{
+      headers: {
+        Authorization: `Bearer ${jwt}`
+       }
+    });
+    return res.status
   } catch (error) {
-    console.log(error);
+    console.log(error.response.data.message)
+    return error.response.data.message
   }
 };
 export const createPostReq = async (post,jwt) => {
@@ -31,10 +38,10 @@ export const createPostReq = async (post,jwt) => {
        Authorization: `Bearer ${jwt}`
       }
      });
-     
-        return res
+     return res.status
   } catch (error) {
-    console.log(error);
+    console.log(error.response.data.message)
+    return error.response.data.message
   }
 };
 export const updatePostReq = async (id, post,jwt) => {
@@ -45,10 +52,10 @@ export const updatePostReq = async (id, post,jwt) => {
      }
     });
     
-       return res
+       return res.status
     
   } catch (error) {
-    console.log(error)
-    return error
+    console.log(error.response.data.message)
+    return error.response.data.message
   }
 };

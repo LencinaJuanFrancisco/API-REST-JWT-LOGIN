@@ -3,15 +3,25 @@ import { Link } from "react-router-dom";
 import { usePosts } from "../context/postContext";
 import { useUsers } from "../context/usersContext";
 import PostCard from "../component/PostCard";
-import ErrorMessage from "../component/ErrorMessage";
+import HandelError from "../component/HandelEerror";
 import img from "../img/avataaars.svg";
 
 export default function Home() {
   const { posts } = usePosts();
-  const { userLogued, JWT, logout } = useUsers();
+  const { userLogued, JWT, logout, errorMessage, setStateError, errorValue } = useUsers();
+
+  
 
   const [serach, setSearch] = useState("");
 
+  const runSetTime = () => {
+  
+     logout();
+     setStateError({ error: false, errorMessage: " " });
+    
+    
+    
+  };
   const searcher = (e) => {
     setSearch(e.target.value);
     //console.log(e.target.value);
@@ -91,9 +101,7 @@ export default function Home() {
       </div>
       <div className="my-5">
         <div className="my-15 py-15 bg-slate-700">
-          <div className="flex justify-center text-red-500 text-sm ">
-            <ErrorMessage></ErrorMessage>
-          </div>
+          <div className="flex justify-center text-red-500 text-sm "></div>
           <h1 className="text-center text-5xl font-bold text-gray-500 py-1">
             Listado de Posts
           </h1>
@@ -115,6 +123,12 @@ export default function Home() {
             className="text-center text-white rounded-lg  bg-gray-500 mt-2 p-2 focus:border-blue-500 focus:bg-gray-800 focus:outline-none "
           />
         </div>
+        {errorValue && (
+          <div className="flex justify-center my-4 py-2">
+            <HandelError err={errorMessage} />
+            {runSetTime()}
+          </div>
+        ) }
 
         <div className="columns-4 gap-3 w-[1200px] mx-auto space-y-3 p-5 pb-5 bg-slate-700 min-h-[1800px] ">
           {result.map((post) => (

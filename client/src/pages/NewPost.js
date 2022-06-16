@@ -10,6 +10,8 @@ import withReactContent from 'sweetalert2-react-content'
 import { usePosts } from "../context/postContext";
 import { useUsers } from "../context/usersContext";
 
+
+
 export default function NewPost() {
   const { createPost, getPost, updatePost } = usePosts();
   const { JWT } = useUsers();
@@ -80,24 +82,19 @@ export default function NewPost() {
               //console.log(values)
               if (params.id) {
                 const res = await updatePost(params.id, values, JWT);
-                console.log("que onda con vos", res);
-                res === 200
-                  ? MySwal.fire({
+                //console.log("que onda con vos", res);
+                res === 200 ?
+                   MySwal.fire({
                       title: "success",
-                      text: <p>el post a sido editado correctaente</p>,
+                      text: 'El post fue editado correctamente',
                       icon: "success",
                       timer: 1500,
                       timerProgressBar: true,
                       confirmButtonText: "ok",
                     })
-                  : MySwal.fire({
-                      icon: "error",
-                      title: "Oops...",
-                      text: <p>Credenciales vencida,debe volver a loguearce</p>,
-                      timer: 2500,
-                      timerProgressBar: true,
+                  : <></>
                      
-                    });
+                    ;
               } else {
                 //console.log('este es el values',values);
                 const res = await createPost(values, JWT);
@@ -110,14 +107,7 @@ export default function NewPost() {
                       timerProgressBar: true,
                       confirmButtonText: "ok",
                     })
-                  : MySwal.fire({
-                      icon: "error",
-                      title: "Oops...",
-                      text: 'Credenciales vencida,debe volver a loguearce',
-                      timer: 2500,
-                      timerProgressBar: true,
-                      footer: <a> {<Link to="/"/>} ir a loguin</a>,
-                    });
+                  : <></>
               }
               actions.setSubmitting(false);
               //    una vez creado el post no redireccina al home

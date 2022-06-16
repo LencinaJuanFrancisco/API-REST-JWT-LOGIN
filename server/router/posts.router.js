@@ -8,7 +8,7 @@ router.get("/", listAll)
 router.post("/",isAuth,  validatorCreatePost, addOne)//isAuth
 router.get("/:id", listOne)
 router.put("/:id",isAuth, validatorCreatePost, editOne)//isAuth
-router.delete('/:id',isAuth,  deleteOne) //isAuth
+router.delete('/:id',isAuth,deleteOne) //isAuth
 
 
 module.exports = router

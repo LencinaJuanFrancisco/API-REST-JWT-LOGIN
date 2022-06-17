@@ -50,7 +50,7 @@ export const UsersProvider = ({ children }) => {
   //creo una funcion para actualizar el estado
 const newState=async()=>{
    const res = await getUsersReq()
-      setUsers(res)
+   setUsers(res)
 }
 
   const createUser = async (user) => {

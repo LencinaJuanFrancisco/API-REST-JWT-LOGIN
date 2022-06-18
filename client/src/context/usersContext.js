@@ -41,7 +41,7 @@ export const UsersProvider = ({ children }) => {
       setStateError({ loading: false, error: false });
       setJWT(res.JWT);
       setUserLogued(res.user[0]);
-      navigate("/");
+      navigate("/listPost");
     } else {
       setStateError({ loading: false, error: true, errorMessage: res.data.message });
     }
@@ -97,6 +97,7 @@ const newState=async()=>{
 
   const logout = useCallback(() => {
     setJWT(null);
+    navigate('/')
   }, [setJWT]);
 
   useEffect(() => {

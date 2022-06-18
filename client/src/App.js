@@ -7,6 +7,7 @@ import NotFound from "./pages/NotFound";
 import NewPost from "./pages/NewPost";
 import ListUsers from "./pages/ListUsers";
 import MenuLogued from "./component/MenuLogued";
+import BtnCRUD from "./component/BtnCRUD";
 import { PostProvider } from "./context/postContext";
 
 import { Toaster } from "react-hot-toast";
@@ -15,15 +16,16 @@ import {useUsers} from './context/usersContext'
 function App() {
  const {logout,userLogued,JWT} = useUsers()
   return (
-    <div className="App bg-slate-700 ">
+    <div className="App bg-slate-700 h-screen relative ">
     {/* <UsersProvider> */}
     <PostProvider>
       
      {JWT &&<MenuLogued logout={logout}  userLogued={userLogued}/> }
-      <Header/>
-
+     {JWT && <BtnCRUD/>} 
+     {JWT && <ListPosts/> } 
           <Routes>
-            <Route path="/" element={<ListPosts />} />
+            <Route path="/" element={<Header JWT={JWT}/>} />
+            <Route path="/listPosts" element={<ListPosts/>} />
             <Route path="/register" element={<Register />} />
             <Route path="/editUser/:id" element={<Register />} />
             <Route path="/login" element={<Login />} />
@@ -32,7 +34,7 @@ function App() {
             <Route path="/editPost/:id" element={<NewPost />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
-          <Toaster></Toaster>
+          <Toaster/>
         </PostProvider>
         {/* </UsersProvider> */}
     </div>

@@ -1,5 +1,5 @@
 import React from "react";
-
+import {Link} from 'react-router-dom'
 export default function BtnCRUD() {
   return (
     <div className="flex justify-center text-center">

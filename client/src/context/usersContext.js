@@ -52,6 +52,11 @@ const newState=async()=>{
    const res = await getUsersReq()
    setUsers(res)
 }
+useEffect(() => {
+  (async()=>{
+    await newState()
+  })()
+}, []);
 
   const createUser = async (user) => {
     try {
@@ -100,11 +105,7 @@ const newState=async()=>{
     navigate('/')
   }, [setJWT]);
 
-  useEffect(() => {
-    (async()=>{
-      await newState()
-    })()
-  }, []);
+  
 
   useEffect(()=>{
     setStateError({ loading: false, error: false, errorMessage: "" });

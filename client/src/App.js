@@ -13,24 +13,26 @@ import { PostProvider } from "./context/postContext";
 import { Toaster } from "react-hot-toast";
 import Header from "./component/Header";
 import {useUsers} from './context/usersContext'
+
+import IsAuth from "./component/IsAuth";
 function App() {
  const {logout,userLogued,JWT} = useUsers()
- const navigate = useNavigate()
+ 
   return (
     <div className="App bg-slate-700 h-screen relative ">
     {/* <UsersProvider> */}
     <PostProvider>
       
      {JWT &&<MenuLogued logout={logout}  userLogued={userLogued}/> }
-     {JWT ? <BtnCRUD/> : navigate('/')} 
-     {JWT ? <ListPosts/>: navigate('/') } 
+     {JWT && <BtnCRUD JWT={JWT}/> } 
+  
           <Routes>
             <Route path="/" element={<Header JWT={JWT}/>} />
-            <Route path="/listPosts" element={<ListPosts/>} />
+            <Route path="/listPosts"  element={<ListPosts/>}  />
             <Route path="/register" element={<Register />} />
-           {JWT ?  <Route path="/editUser/:id" element={<Register />} />: navigate('/')}
+            <Route path="/editUser/:id" element={<Register />} />
             <Route path="/login" element={<Login />} />
-            <Route path="/listUsers" element={<ListUsers />} />
+            <Route path="/listUsers" element={<ListUsers />} /> 
             <Route path="/newPost" element={<NewPost />} />
             <Route path="/editPost/:id" element={<NewPost />} />
             <Route path="*" element={<NotFound />} />

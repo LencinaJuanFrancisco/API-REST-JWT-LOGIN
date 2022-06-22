@@ -1,13 +1,12 @@
 import React from "react";
 
-import img from "../img/avataaars.svg";
 import toast from "react-hot-toast";
 import { useUsers } from "../context/usersContext";
 import { useNavigate } from "react-router-dom";
 
 export default function UserCard({ user }) {
   const navigate = useNavigate();
-  const { deleteUser } = useUsers();
+  const { deleteUser,logout,userRegister } = useUsers();
   const handelDelete = (id, email) => {
     toast(
       (t) => (
@@ -20,6 +19,10 @@ export default function UserCard({ user }) {
               className="bg-red-600 hover:bg-red-400 px-3 py-2 mx-2 rounded-sm text-white text-sm"
               onClick={() => {
                 deleteUser(id);
+                //verifico si el usuario que elimino es el que esta logueado, si es correcto, elimono al usuario y lo deslogueo
+                if(userRegister.id === id){
+                  logout()
+                }
                 toast.dismiss(t.id);
               }}
             >
@@ -44,16 +47,16 @@ export default function UserCard({ user }) {
   };
 
   return (
-    <div class="break-inside-avoid ">
-      <div class="m-auto  max-w-lg items-center justify-center overflow-hidden rounded-2xl bg-slate-200 shadow-xl">
-        <div class="h-24 bg-white"></div>
-        <div class="-mt-20 flex justify-center">
-          <img class="h-32 rounded-full" src={user.image} />
+    <div className="break-inside-avoid ">
+      <div className="m-auto  max-w-lg items-center justify-center overflow-hidden rounded-2xl bg-slate-200 shadow-xl">
+        <div className="h-24 bg-white"></div>
+        <div className="-mt-20 flex justify-center">
+          <img className="h-32 rounded-full" src={user.image} />
         </div>
-        <div class="mt-5 mb-1 px-3 text-center text-lg">{user.name}</div>
-        <div class="mb-5 px-3 text-center text-sky-500">{user.email}</div>
+        <div className="mt-5 mb-1 px-3 text-center text-lg">{user.name}</div>
+        <div className="mb-5 px-3 text-center text-sky-500">{user.email}</div>
         <blockquote>
-          <p class="mx-2 mb-5 text-center text-base">id - {user.id}</p>
+          <p className="mx-2 mb-5 text-center text-base">id - {user.id}</p>
         </blockquote>
       <div className="flex justify-center mb-2">
         {

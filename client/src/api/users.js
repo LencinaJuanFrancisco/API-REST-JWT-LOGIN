@@ -57,7 +57,7 @@ export const createUserReq = async (user) => {
     
     
   } catch (error) {
-   console.log("que mierda viene aca", error);
+   console.log("que mierda viene aca", error.response.data);
     return error.response.data;
   }
 };

@@ -127,7 +127,7 @@ const login = async (req, res, next) => {
       user: rtaListOne,
     });
   } else {
-    let error = new Error("Unauthorized");
+    let error = new Error("algunos de los datos son incorrectos");
     error.status = 401;
     next(error);
   }

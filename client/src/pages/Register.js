@@ -2,6 +2,7 @@ import React, { useEffect , useState} from "react";
 import loginImage from "../img/laptop.jpg";
 import { Link,useParams,useNavigate } from "react-router-dom";
 import { Formik, Form, Field,ErrorMessage } from "formik"; //, ErrorMessage
+import HandelError from '../component/HandelEerror'
 
 import { useUsers } from "../context/usersContext";
 import * as Yup from "yup";
@@ -12,7 +13,7 @@ export default function Login() {
  
   const params = useParams()
   const navigate = useNavigate()
-  const { createUser,errorMessage,hasLoginError,getUser,updateUser } = useUsers();
+  const { createUser,errorMessage,hasLoginError,getUser,updateUser,setStateError,errorValue } = useUsers();
 
   // creamos un useState para manejar los valores del post cuando queremos editar, asi , cuando viene la inforacion que queremos editar podemos modificar el valor inicial da los initialValues del FORMIK
   const [user, setUser] = useState({
@@ -34,6 +35,11 @@ export default function Login() {
     })()
   },[params.id])
  
+  //creo una funcion para manejar el tiempo del error
+  const runSetTime = () => {
+  
+    setStateError({ error: false, errorMessage: " " });
+  };
 
 
   return (
@@ -147,6 +153,12 @@ export default function Login() {
           )}
         </Formik>
       </div>
+      {errorValue && (
+          <div className="flex justify-center my-4 py-2">
+            <HandelError err={errorMessage} />
+            {runSetTime()}
+          </div>
+        )}
       <div className="hidden sm:block">
         <img className="w-full h-full object-cover" src={loginImage} alt="" />
       </div>

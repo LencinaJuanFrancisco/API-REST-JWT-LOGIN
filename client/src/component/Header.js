@@ -1,8 +1,10 @@
 import React from "react";
 import BtnLogAndReg from "./BtnLogAndReg";
+
+
 export default function Header({ JWT }) {
   return (
-    <div className="flex flex-col z-0  mx-auto -mt-20 overflow-hidden bg-gradient-to-r from-gray-800 to-gray-800 ">
+    <div className="flex flex-col z-0  mx-auto  overflow-hidden bg-gradient-to-r from-gray-800 to-gray-800 ">
       <div className="relative z-20 flex w-full min-h-screen px-5 pt-20 mx-auto sm:px-12 sm:h-screen max-w-7xl sm:pt-0 lg:px-0">
         <div className="w-full md:w-2/3">
           <div className="flex flex-col items-start justify-center w-full h-full pb-20">

@@ -4,10 +4,11 @@ import { usePosts } from "../context/postContext";
 import { useUsers } from "../context/usersContext";
 import PostCard from "../component/PostCard";
 import HandelError from "../component/HandelEerror";
+import IsAuth from "../component/IsAuth";
 
 export default function Home() {
   const { posts } = usePosts();
-  const { logout, errorMessage, setStateError, errorValue } = useUsers();
+  const { logout, errorMessage, setStateError, errorValue ,JWT} = useUsers();
 
   const [serach, setSearch] = useState("");
 
@@ -29,6 +30,8 @@ export default function Home() {
       dato.title.toLowerCase().includes(serach.toLowerCase())
     );
   }
+if(JWT){
+
 
   return (
     <div>
@@ -71,4 +74,9 @@ export default function Home() {
       </div>
     </div>
   );
+          }else{
+            return(
+              <IsAuth/>
+            )
+          }
 }

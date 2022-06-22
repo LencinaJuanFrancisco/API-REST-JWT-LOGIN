@@ -2,18 +2,27 @@ import React, { useState } from "react";
 import loginImage from "../img/laptop.jpg";
 
 import * as Yup from "yup";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { Formik, Form, Field, ErrorMessage } from "formik"; //, ErrorMessage
 import { useUsers } from "../context/usersContext";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
+import HandelError from '../component/HandelEerror'
 
 export default function Login() {
 
   const [userName, setUserName] = useState("");
   const [password, setPassword] = useState("");
 
-  const { login, isLoginloading, hasLoginError, userRegister, errorMessage } =
+  const { login, isLoginloading, hasLoginError, userRegister, errorMessage,setStateError,errorValue } =
     useUsers();
+    
+
+   //creo una funcion para manejar el tiempo del error
+  const runSetTime = () => {
+    setStateError({ error: false, errorMessage: " " });
+  };
+
+ 
 
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 h-screen w-full">
@@ -108,6 +117,12 @@ export default function Login() {
           )}
         </Formik>
       </div>
+      {errorValue && (
+       <div className="flex justify-center my-4 py-2">
+         <HandelError err={errorMessage} />
+         {runSetTime()}
+       </div>
+     )}
     </div>
   );
 }

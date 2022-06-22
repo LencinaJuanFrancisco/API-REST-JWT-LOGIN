@@ -1,4 +1,4 @@
-import { Routes, Route ,useNavigate} from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 import "./App.css";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
@@ -14,13 +14,13 @@ import { Toaster } from "react-hot-toast";
 import Header from "./component/Header";
 import {useUsers} from './context/usersContext'
 
-import IsAuth from "./component/IsAuth";
+
 function App() {
  const {logout,userLogued,JWT} = useUsers()
  
   return (
     <div className="App bg-slate-700 h-screen relative ">
-    {/* <UsersProvider> */}
+    
     <PostProvider>
       
      {JWT &&<MenuLogued logout={logout}  userLogued={userLogued}/> }
@@ -39,7 +39,7 @@ function App() {
           </Routes>
           <Toaster/>
         </PostProvider>
-        {/* </UsersProvider> */}
+       
     </div>
   );
 }

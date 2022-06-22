@@ -32,10 +32,15 @@ export const deletePostRequest = async (id,jwt) => {
 };
 export const createPostReq = async (post,jwt) => {
   try {
+    const form = new FormData()
     //console.log("entre al createPost y esto vino", post);
-    const res = await axios.post("/posts", post,{
+    for (let key in post) {
+      form.append(key, post[key]);
+    }
+    const res = await axios.post("/posts", form,{
       headers: {
-       Authorization: `Bearer ${jwt}`
+       Authorization: `Bearer ${jwt}`,
+       "content-Type": "multipart/form-data",
       }
      });
      return res.status
@@ -44,15 +49,19 @@ export const createPostReq = async (post,jwt) => {
     return error.response.data.message
   }
 };
-export const updatePostReq = async (id, post,jwt) => {
+export const updatePostReq = async (id, upPost,jwt) => {
   try {
-    const res =  await axios.put(`/posts/${id}`, post,{
-     headers: {
-      Authorization: `Bearer ${jwt}`
-     }
-    });
-    
-       return res.status
+    const form = new FormData();
+    for (let key in upPost){
+      form.append(key,upPost[key])
+  }
+  const res = await axios.put(`/posts/${id}`, form,{
+    headers: {
+     Authorization: `Bearer ${jwt}`,
+     "content-Type": "multipart/form-data",
+    }
+   });
+   return res.status
     
   } catch (error) {
     console.log(error.response.data.message)

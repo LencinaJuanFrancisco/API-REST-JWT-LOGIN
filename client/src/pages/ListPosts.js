@@ -6,7 +6,7 @@ import PostCard from "../component/PostCard";
 import HandelError from "../component/HandelEerror";
 import IsAuth from "../component/IsAuth";
 
-export default function Home() {
+export default function ListPosts() {
   const { posts } = usePosts();
   const { logout, errorMessage, setStateError, errorValue ,JWT} = useUsers();
 

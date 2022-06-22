@@ -12,7 +12,7 @@ import * as Yup from "yup";
 export default function Login() {
  
   const params = useParams()
-  const navigate = useNavigate()
+ 
   const { createUser,errorMessage,hasLoginError,getUser,updateUser,setStateError,errorValue } = useUsers();
 
   // creamos un useState para manejar los valores del post cuando queremos editar, asi , cuando viene la inforacion que queremos editar podemos modificar el valor inicial da los initialValues del FORMIK
@@ -61,7 +61,7 @@ export default function Login() {
             }else{
               await createUser(values)
             }
-            //navigate('/listUsers')
+           
           }}
           
           //esta funcio es de formik, y se utiliza para cargar los datos en el fomulario, es decir, formik carga inicialmete los datos vacios que se encuentran en el initialValue(),

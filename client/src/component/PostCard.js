@@ -3,14 +3,13 @@ import {usePosts} from '../context/postContext'
 import { useUsers } from "../context/usersContext";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
-const image =
-  "https://images.unsplash.com/photo-1506744038136-46273834b3fb?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=750&q=80";
+
 function PostCard({ post }) {
   const { deletePost } = usePosts();
   const {JWT} = useUsers()
   // const {usersLogued}=useUsers()
   const navigate = useNavigate();
-
+console.log(post.image);
   const handelDelete = (id, title) => {
     toast(
       (t) => (
@@ -50,8 +49,13 @@ function PostCard({ post }) {
       className=" w-60 p-2 m-auto bg-white rounded-xl transform transition-all hover:-translate-y-2 duration-300 shadow-white shadow-sm hover:shadow-2xl break-inside-avoid"
     
       
-    >
-      <img className="h-40 object-cover rounded-xl" src={image} alt="generic"/>
+    > 
+
+
+    
+      <img className="h-40 object-cover rounded-xl" src={ post.image} alt="generic"/>  
+     
+      
       <div className="p-2 w-60">
         <h2 className="font-bold text-lg mb-2 ">{post.id}</h2>
         <h2 className="font-bold text-lg mb-2 ">{post.title}</h2>

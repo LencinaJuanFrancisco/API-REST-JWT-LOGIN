@@ -29,7 +29,7 @@ export const UsersProvider = ({ children }) => {
     errorMessage: "",
   });
   const [JWT, setJWT] = useState(null);
-  const [users, setUsers] = useState();
+  const [users, setUsers] = useState([]);
   const [userLogued, setUserLogued] = useState([]); //pongo los datos del usuario loguedado
   const [userRegister, setUserRegiste] = useState(""); //creo este estado asi, una ves registrodo lo redirecciono al login y carlo los datos sel usuario sin volver a solicitarlos
 
@@ -41,7 +41,7 @@ export const UsersProvider = ({ children }) => {
       setStateError({ loading: false, error: false });
       setJWT(res.JWT);
       setUserLogued(res.user[0]);
-      navigate("/listPost");
+      navigate("/listPosts");
     } else {
       setStateError({ loading: false, error: true, errorMessage: res.data.message });
     }
@@ -92,6 +92,7 @@ useEffect(() => {
   //update User
   const updateUser = async (id,upUser) => {
     try {
+      //console.log('que viene para ser editado',id,upUser);
       await updateUserReq(id,upUser);
       await newState()
       navigate('/listUsers')

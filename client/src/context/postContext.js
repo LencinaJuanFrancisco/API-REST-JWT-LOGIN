@@ -63,8 +63,9 @@ export const PostProvider = ({ children }) => {
 
   const updatePost = async (id, post, JWT) => {
     try {
+      //console.log('que viene para ser editado',id,post,JWT);
       const res = await updatePostReq(id, post, JWT);
-      console.log('update', res);
+      console.log('update??', res);
      if( res === 200)  {
        await newState()
        return res

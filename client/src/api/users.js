@@ -37,7 +37,7 @@ export const loginReq = async (user) => {
 };
 //create
 export const createUserReq = async (user) => {
-  console.log("estoy en createUserReq");
+  //console.log("estoy en createUserReq");
   try {
   const form = new FormData();
   for (let key in user) {
@@ -49,15 +49,15 @@ export const createUserReq = async (user) => {
       },
     });
     if (res.data.status !== 201) {
-      console.log("entre a la cuestion del error", res.response.data);
+     // console.log("entre a la cuestion del error", res.response.data);
       return res.response.data;
     }
-    console.log("esto mado al context de usuario",res.data)
+    //console.log("esto mado al context de usuario",res.data)
     return res.data;
     
     
   } catch (error) {
-   console.log("que mierda viene aca", error.response.data);
+   //console.log("que mierda viene aca", error.response.data);
     return error.response.data;
   }
 };
@@ -65,7 +65,7 @@ export const createUserReq = async (user) => {
 export const deleteUserReq= async(id)=>{
     try {
         const res = await axios.delete(`/users/${id}`)
-        console.log('deleteUserReq',res);
+        //console.log('deleteUserReq',res);
         return res
     } catch (error) {
       return error.response.data;
@@ -84,10 +84,10 @@ export const updateUserReq=async(id,upUser)=>{
                 "Content-Type": "multipart/form-data",
               },
         })
-        console.log('updateUserReq',res.data);
+        //console.log('updateUserReq',res.data);
         return res.data     
     } catch (error) {
-        console.log("se rompio en updateUserReq---",error);
+        //console.log("se rompio en updateUserReq---",error);
         return error.response.data;
     }
 

@@ -43,9 +43,9 @@ export default function NewPost() {
 
   if (JWT) {
     return (
-      <div className="h-screen w-full bg-gray-900">
+      <div className="h-screen w-full my-1 py-1 bg-slate-700">
         <div className="flex justify-center">
-          <h2 className="text-white my-10">
+          <h2 className="text-white my-3">
             {params.id ? (
               <span>Editar Posts</span>
             ) : (
@@ -54,7 +54,7 @@ export default function NewPost() {
           </h2>
         </div>
         <div className="flex items-center  justify-center ">
-          <div className="bg-zinc-800 p-10 shadow-md shadow-black w-3/4">
+          <div className="bg-zinc-700 p-5 shadow-md shadow-zinc w-3/4">
             <header className="flex justify-between items-center py-4 text-white">
               <h3 className="text-xl">
                 {params.id ? (
@@ -118,7 +118,7 @@ export default function NewPost() {
                 }
                 actions.setSubmitting(false);
                 //    una vez creado el post no redireccina al home
-                navigate("/");
+                navigate("/listPosts");
               }}
               enableReinitialize={true} //este metodo de Formik , para recargar el formulario, en este caso lo utilizamos para que cuando se modifique el estado cuando editamos, vuelva a cargar el formulario pero con los datos a editar, si lo colocamos en flse, no se carga los datos que tenemos en el estado
             >
@@ -146,7 +146,7 @@ export default function NewPost() {
                   </label>
                   <Field
                     component="textarea"
-                    rows="5"
+                    rows="3"
                     name="body"
                     placeholder="description"
                     className="px-3 py-2 rounded focus:outline-none bg-gray-600 text-white w-full block"
@@ -162,13 +162,13 @@ export default function NewPost() {
                   >
                     Image
                   </label>
-                  {/* <input
+                  <input
               onChange={(e)=> setFieldValue('image',e.target.files[0])}
                 type="file"
                 name="image"
                 id=""
                 className="px-3 py-2 focus:outline-none rounded bg-gray-600 text-white w-full"
-              /> */}
+              />
 
                   <button
                     type="submit"

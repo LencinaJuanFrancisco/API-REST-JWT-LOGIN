@@ -1,7 +1,7 @@
 import React from "react";
 import BtnLogAndReg from "./BtnLogAndReg";
-
-
+import HomePosts from "./HomePosts"
+import HomeUsers from "./HomeUsers";
 export default function Header({ JWT }) {
   return (
     <div className="flex flex-col z-0  mx-auto  overflow-hidden bg-gradient-to-r from-gray-800 to-gray-800 ">
@@ -206,6 +206,13 @@ export default function Header({ JWT }) {
           </div>
           <div className="absolute top-0 left-0 z-50 w-full h-screen bg-gradient-to-r from-gray-800 t to-transparent"></div>
         </div>
+      </div>
+      <div>
+      <HomeUsers/>
+      </div>
+      <div>
+      <HomePosts/>
+        
       </div>
     </div>
   );

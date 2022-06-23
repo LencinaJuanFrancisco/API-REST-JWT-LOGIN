@@ -2,7 +2,7 @@ const { tokenVerify } = require("../utils/handleJWT")
 
 const isAuth = async (req, res, next) => {
     if (!req.headers.authorization) {
-        let error = new Error("Necesita nurvos permisos para continuar")
+        let error = new Error("Necesita nuevos permisos para continuar")
         error.status = 403
         return next(error)
     }

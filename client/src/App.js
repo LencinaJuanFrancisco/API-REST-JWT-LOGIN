@@ -8,38 +8,35 @@ import NewPost from "./pages/NewPost";
 import ListUsers from "./pages/ListUsers";
 import MenuLogued from "./component/MenuLogued";
 import BtnCRUD from "./component/BtnCRUD";
+
 import { PostProvider } from "./context/postContext";
 
-import { Toaster } from "react-hot-toast";
-import Header from "./component/Header";
-import {useUsers} from './context/usersContext'
 
+import Header from "./component/Header";
+import { useUsers } from "./context/usersContext";
 
 function App() {
- const {logout,userLogued,JWT} = useUsers()
- 
+  const { logout, userLogued, JWT,users } = useUsers();
+
   return (
     <div className="App bg-slate-700 h-screen relative ">
-    
-    <PostProvider>
-      
-     {JWT &&<MenuLogued logout={logout}  userLogued={userLogued}/> }
-     {JWT && <BtnCRUD JWT={JWT}/> } 
-  
-          <Routes>
-            <Route path="/" element={<Header JWT={JWT}/>} />
-            <Route path="/listPosts"  element={<ListPosts/>}  />
-            <Route path="/register" element={<Register />} />
-            <Route path="/editUser/:id" element={<Register />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/listUsers" element={<ListUsers />} /> 
-            <Route path="/newPost" element={<NewPost />} />
-            <Route path="/editPost/:id" element={<NewPost />} />
-            <Route path="*" element={<NotFound />} />
-          </Routes>
-          <Toaster/>
-        </PostProvider>
+      <PostProvider>
+        {JWT && <MenuLogued logout={logout} userLogued={userLogued} />}
+        {JWT && <BtnCRUD JWT={JWT} />}
        
+        <Routes>
+          <Route path="/" element={<Header JWT={JWT}  />} />
+          <Route path="/listPosts" element={<ListPosts />} />
+          <Route path="/register" element={<Register />} />
+          <Route path="/editUser/:id" element={<Register />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/listUsers" element={<ListUsers />} />
+          <Route path="/newPost" element={<NewPost />} />
+          <Route path="/editPost/:id" element={<NewPost />} />
+          <Route path="*" element={<NotFound />} />
+        </Routes>
+       
+      </PostProvider>
     </div>
   );
 }

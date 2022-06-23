@@ -1,82 +1,68 @@
 import React from "react";
-import {usePosts} from '../context/postContext'
+import { usePosts } from "../context/postContext";
 import { useUsers } from "../context/usersContext";
-import toast from "react-hot-toast";
+
+import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
 
 function PostCard({ post }) {
   const { deletePost } = usePosts();
-  const {JWT} = useUsers()
+  const { JWT } = useUsers();
   // const {usersLogued}=useUsers()
   const navigate = useNavigate();
-console.log(post.image);
+  //console.log(post.image);
+  
   const handelDelete = (id, title) => {
-    toast(
-      (t) => (
-        <div>
-          <p className="text-white">
-            Realmente quieres eliminar el post - <strong>{title}</strong>
-          </p>
-          <div className="flex justify-around py-2">
-            <button
-              className="bg-red-600 hover:bg-red-400 px-3 py-2 mx-2 rounded-sm text-white text-sm"
-              onClick={() => {
-                deletePost(id,JWT);
-                toast.dismiss(t.id);
-              }}
-            >
-              Delete
-            </button>
-            <button
-              className="bg-slate-400 hover:bg-slate-500 px-3 py-2 text-white rounded-sm mx-2 text-sm"
-              onClick={() => toast.dismiss(t.id)}
-            >
-              Cancel
-            </button>
-          </div>
-        </div>
-      ),
-      {
-        style: {
-          background: "#202020",
-        },
-        icon: "🎃",
+    Swal.fire({
+      title: `'Esta seguro de querear eliminar post ${title}?'`,
+      showDenyButton: true,
+      showCancelButton: true,
+      confirmButtonText: 'Eliminar',
+      // denyButtonText: `canc`,
+    }).then((result) => {
+      /* Read more about isConfirmed, isDenied below */
+      if (result.isConfirmed) {
+        deletePost(id, JWT);
+        Swal.fire('Eliminado!', '', 'success')
       }
-    );
+    })
+
   };
   return (
-    <div
-      className=" w-60 p-2 m-auto bg-white rounded-xl transform transition-all hover:-translate-y-2 duration-300 shadow-white shadow-sm hover:shadow-2xl break-inside-avoid"
-    
-      
-    > 
+    <div className=" w-60 p-2 m-auto bg-white rounded-xl transform transition-all hover:-translate-y-2 duration-300 shadow-white shadow-sm hover:shadow-2xl break-inside-avoid">
+      <img
+        className="h-40 object-cover rounded-xl"
+        src={post.image}
+        alt="generic"
+      />
 
-
-    
-      <img className="h-40 object-cover rounded-xl" src={ post.image} alt="generic"/>  
-     
-      
       <div className="p-2 w-60">
         <h2 className="font-bold text-lg mb-2 ">{post.id}</h2>
         <h2 className="font-bold text-lg mb-2 ">{post.title}</h2>
-        <p className="mt-4 p-1 w-full text-sm leading-6 col-start-1 sm:col-span-2 lg:mt-6 lg:row-start-4 lg:col-span-1 dark:text-slate-400 ">{post.body}</p>
+        <p className="mt-4 p-1 w-full text-sm leading-6 col-start-1 sm:col-span-2 lg:mt-6 lg:row-start-4 lg:col-span-1 dark:text-slate-400 ">
+          {post.body}
+        </p>
       </div>
       <div className="flex justify-between">
-        {JWT && <button
-          className="text-white bg-purple-600 px-3 py-1  rounded-md hover:bg-purple-700"
-          onClick={(e) => {
-            e.stopPropagation();
-            handelDelete(post.id, post.title)
-          }}
-        >
-          Delete
-        </button>}
-        {JWT && <button
-          className="text-white bg-sky-500 px-3 py-1 rounded-md hover:bg-sky-700"
-          onClick={() => navigate(`/editPost/${post.id}`)}
-        >
-          Edit
-        </button>}
+        {JWT && (
+          <button
+            className="text-white bg-purple-600 px-3 py-1  rounded-md hover:bg-purple-700"
+            onClick={(e) => {
+              e.stopPropagation();
+              handelDelete(post.id, post.title);
+            }}
+          >
+            Delete
+          </button>
+        )}
+        {JWT && (
+          <button
+            className="text-white bg-sky-500 px-3 py-1 rounded-md hover:bg-sky-700"
+            onClick={() => navigate(`/editPost/${post.id}`)}
+          >
+            Edit
+          </button>
+        )}
         <div />
       </div>
     </div>

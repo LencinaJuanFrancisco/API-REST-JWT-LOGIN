@@ -7,7 +7,7 @@ import UserCard from "../component/UserCard";
 export default function ListUsers() {
   const { users, JWT } = useUsers();
 
-console.log(JWT);
+//console.log(JWT);
 
   if (JWT) {
     return (

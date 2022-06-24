@@ -14,6 +14,7 @@ import { PostProvider } from "./context/postContext";
 
 import Header from "./component/Header";
 import { useUsers } from "./context/usersContext";
+import ForgotPass from "./pages/ForgotPass";
 
 function App() {
   const { logout, userLogued, JWT,users } = useUsers();
@@ -30,6 +31,8 @@ function App() {
           <Route path="/register" element={<Register />} />
           <Route path="/editUser/:id" element={<Register />} />
           <Route path="/login" element={<Login />} />
+          <Route path="/forgot" element={<ForgotPass />} />
+          <Route path="/reset/:token" element={<ForgotPass />} />
           <Route path="/listUsers" element={<ListUsers />} />
           <Route path="/newPost" element={<NewPost />} />
           <Route path="/editPost/:id" element={<NewPost />} />

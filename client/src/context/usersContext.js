@@ -12,7 +12,8 @@ import {
   getUserReq,
   createUserReq,
   deleteUserReq,
-  updateUserReq
+  updateUserReq,
+  forgotReq
 } from "../api/users";
 const userContext = createContext();
 
@@ -124,6 +125,18 @@ useEffect(() => {
     
   };
 
+///////////////////////////// FORGOT PASSWORD //////////////////////////////////////////////////////
+
+const forgot=async(email)=>{
+  try {
+    const res = await forgotReq(email)
+    console.log("forgot",res);
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+
   return (
     <userContext.Provider
       value={{
@@ -146,6 +159,7 @@ useEffect(() => {
         deleteUser,
         getUser,
         updateUser,
+        forgot
       }}
     >
       {children}

@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import loginImage from "../img/laptop.jpg";
 
 import * as Yup from "yup";
-import { Link } from "react-router-dom";
+import { Link,useNavigate } from "react-router-dom";
 import { Formik, Form, Field, ErrorMessage } from "formik"; //, ErrorMessage
 import { useUsers } from "../context/usersContext";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
@@ -15,7 +15,7 @@ export default function Login() {
 
   const { login, isLoginloading, hasLoginError, userRegister, errorMessage,setStateError,errorValue } =
     useUsers();
-    
+   const navigate = useNavigate() 
 
    //creo una funcion para manejar el tiempo del error
   const runSetTime = () => {
@@ -96,7 +96,7 @@ export default function Login() {
                 />
               </div>
               <div className="flex justify-between text-gray-400 py-2">
-                <p>Forgot Password</p>
+                <button onClick={()=>{ navigate('/forgot')}} >Fortgot Password</button>
               </div>
               <button
                 onClick={(e) => {

@@ -89,8 +89,9 @@ const register = async (req, res, next) => {
       //console.log('cree uno CON imagen');
       res.status(201).json({status:201, message: "User Created", user: newUser });
     } else {
+      const image = "https://upload.wikimedia.org/wikipedia/commons/thumb/1/1a/Monsters_University_Logo.svg/1280px-Monsters_University_Logo.svg.png"
       const password = await encrypt(req.body.password);
-      const rtaRegister = await addNewUser({ ...cleanBody, password });
+      const rtaRegister = await addNewUser({ ...cleanBody, password,image });
       if (rtaRegister instanceof Error) return next(rtaRegister);
   
       const newUser = await getUserByEmail(req.body.email);
@@ -142,6 +143,7 @@ var transport = nodemailer.createTransport({
   },
 });
 const forgot = async (req, res, next) => {
+  console.log('entra al back???', req.body.email);
   const dbResponse = await loginUser(req.body.email);
   if (!dbResponse.length) return next();
   const user = {

@@ -92,3 +92,15 @@ export const updateUserReq=async(id,upUser)=>{
     }
 
 }
+
+//forgot password
+export const forgotReq=async(email)=>{
+  console.log('LLega el email al forgotReq?',email);
+  try {
+    await axios.post("/users/forgot-password", email);
+    
+  } catch (error) {
+    console.log(error);
+  }
+
+}

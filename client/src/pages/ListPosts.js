@@ -63,7 +63,7 @@ export default function ListPosts() {
               {runSetTime()}
             </div>
           )}
-          <div className="columns-4 gap-3 w-[1200px] mx-auto space-y-3 p-5 pb-5 bg-slate-700 min-h-[1800px] ">
+          <div className="lg:columns-4 md:columns-3  sm:columns-1 gap-1  mx-auto space-y-3 p-5 pb-5 bg-slate-700 min-h-[1800px] ">
             {result.map((post) => (
               <PostCard key={post.id} post={post} />
             ))}

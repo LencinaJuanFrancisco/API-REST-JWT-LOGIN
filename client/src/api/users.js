@@ -95,12 +95,24 @@ export const updateUserReq=async(id,upUser)=>{
 
 //forgot password
 export const forgotReq=async(email)=>{
-  console.log('LLega el email al forgotReq?',email);
+  
   try {
-    await axios.post("/users/forgot-password", email);
-    
+   const res=  await axios.post("/users/forgot-password", email);
+    return res.data
   } catch (error) {
-    console.log(error);
+   return error.response.data
   }
 
 }
+
+export const saveNewPassReq=async(password,token)=>{
+  console.log('al back', password);
+  try {
+    const res = await axios.post(`/users/reset/${token}`,{password})
+    return res.data
+  } catch (error) {
+    return error.response.data
+  }
+
+}
+

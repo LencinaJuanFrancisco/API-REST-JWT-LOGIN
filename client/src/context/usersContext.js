@@ -13,7 +13,8 @@ import {
   createUserReq,
   deleteUserReq,
   updateUserReq,
-  forgotReq
+  forgotReq,
+  saveNewPassReq
 } from "../api/users";
 const userContext = createContext();
 
@@ -128,14 +129,27 @@ useEffect(() => {
 ///////////////////////////// FORGOT PASSWORD //////////////////////////////////////////////////////
 
 const forgot=async(email)=>{
+  setStateError({ loading: true, error: false });
   try {
     const res = await forgotReq(email)
-    console.log("forgot",res);
+    setStateError({ loading: false, error: false });
+    console.log('😀😀😀',res);
+    return res
   } catch (error) {
     console.log(error);
   }
 }
-
+const saveNewPass=async(password,token)=>{
+  setStateError({ loading: true, error: false });
+  try {
+    const res = await saveNewPassReq(password,token)
+    setStateError({ loading: false, error: false });
+    return res
+      // console.log('saveNewPass',res);
+  } catch (error) {
+    console.log(error);   
+  }
+}
 
   return (
     <userContext.Provider
@@ -159,7 +173,8 @@ const forgot=async(email)=>{
         deleteUser,
         getUser,
         updateUser,
-        forgot
+        forgot,
+        saveNewPass
       }}
     >
       {children}

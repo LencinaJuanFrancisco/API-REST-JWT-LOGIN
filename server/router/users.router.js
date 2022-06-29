@@ -11,7 +11,7 @@ router.put('/:id', uploadFile.single("image"), validatorEditUser, editOne)
 router.post('/login', login)
 router.post("/forgot-password", forgot)
 router.get('/reset/:token', reset)
-router.post('/reset/:token', validatorResetPassword, saveNewPass)
+router.post('/reset/:token',  saveNewPass)//validatorResetPassword,
 router.delete('/:id', deleteOne)
 
 module.exports = router;

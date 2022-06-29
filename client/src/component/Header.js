@@ -29,7 +29,8 @@ export default function Header({ JWT }) {
               <p className="max-w-md mb-10 text-base font-light text-gray-200 sm:text-lg lg:text-xl dark:text-dark-200">
                 Bienvenidos a la aplicacion para crear Post.Deberas registarte,
                 luego logearte y podras tener acceso a la edicion, creacion y
-                eliminacion de los posts y los usuarios
+                eliminacion de los posts y los usuarios.
+                Si creas un usuario con un email vedadero, podras recuperar tu contraseña. 
               </p>
 
               <div className="relative flex flex-col items-center justify-start w-full space-y-5 sm:w-auto lg:space-y-0 lg:space-x-5 lg:flex-row">

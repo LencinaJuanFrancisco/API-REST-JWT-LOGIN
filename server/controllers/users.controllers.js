@@ -13,6 +13,7 @@ const { encrypt, compare } = require("../utils/handlePassword");
 const { tokenSign, tokenVerify } = require("../utils/handleJWT");
 const nodemailer = require("nodemailer");
 const public_url = process.env.public_url;
+const public_url_react = process.env.public_url_react 
 
 const allUser = async (req, res, next) => {
   const rtaAllUser = await getAllUsers();
@@ -143,24 +144,24 @@ var transport = nodemailer.createTransport({
   },
 });
 const forgot = async (req, res, next) => {
-  console.log('entra al back???', req.body.email);
+ // console.log('entra al back???', req.body.email);
   const dbResponse = await loginUser(req.body.email);
-  if (!dbResponse.length) return next();
+  if (!dbResponse.length) return res.status(404).json({status:404,message:"Usuario no encontrado"});
   const user = {
     id: dbResponse[0].id,
     name: dbResponse[0].name,
     email: dbResponse[0].email,
   };
   const token = await tokenSign(user, "15m");
-  const link = `${public_url}/users/reset/${token}`;
+  const link = `${public_url_react}/users/reset/${token}`;
 
   let mailDetails = {
     from: "tech.support@splinter",
     to: user.email,
-    subject: "Pasword Recovery with magic link",
-    html: `<h2>Password Recovery Service</h2>
-        <p>To reset your password, please click the link and follow the instructions</p>
-        <a href="${link}">click to recover your password</a>
+    subject: "Recuperación de contraseña",
+    html: `<h2>Servicio de recuperación de contraseña</h2>
+        <p>Para restablecer su contraseña, haga clic en el enlace y siga las instrucciones</p>
+        <a href="${link}">click para recuperar tu contraseña</a>
         `,
   };
   transport.sendMail(mailDetails, (error, data) => {
@@ -169,7 +170,7 @@ const forgot = async (req, res, next) => {
       res.next(error);
     } else
       res.status(200).json({
-        message: `Hi ${user.name}, we've sent an email with instructions to ${user.email}... Hurry up!`,
+        message: `Hola ${user.name},  Te hemos enviado un correo electrónico con las instrucciones a ${user.email}... Hurry up!`,
       });
   });
 };
@@ -178,20 +179,22 @@ const reset = async (req, res, next) => {
   const { token } = req.params;
   const tokenStatus = await tokenVerify(token);
   if (tokenStatus instanceof Error) {
-    res.send(tokenStatus);
-  } else res.render("reset", { tokenStatus, token });
+    res.status(400).json(tokenStatus);
+  } else res.status(200).json("reset", { tokenStatus, token });
 };
 const saveNewPass = async (req, res, next) => {
+  
   const { token } = req.params;
+  console.log('token',token);
   const tokenStatus = await tokenVerify(token);
-  if (tokenStatus instanceof Error) return res.send(tokenStatus);
-  const password = await encrypt(req.body.password_1);
+  if (tokenStatus instanceof Error) return res.status(400).json(tokenStatus);
+  const password = await encrypt(req.body.password);
   const dbResponse = await editUserById(tokenStatus.id, { password });
   dbResponse instanceof Error
     ? next(dbResponse)
     : res
         .status(200)
-        .json({ message: `Password changed for user ${tokenStatus.name}` });
+        .json({status:200, message: `Password changed for user ${tokenStatus.name}` });
 };
 
 module.exports = {

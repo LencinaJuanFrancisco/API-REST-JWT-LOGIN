@@ -1,18 +1,18 @@
 import React from "react";
 import loginImage from "../img/laptop.jpg";
-import { Link, } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { Formik, Form, Field,ErrorMessage } from "formik"; //, ErrorMessage
 import HandelError from '../component/HandelEerror'
 import { useUsers } from "../context/usersContext";
-
+import Swal from "sweetalert2";
 import * as Yup from "yup";
-
+import { AiOutlineLoading3Quarters } from "react-icons/ai";
 
 
 export default function ForgotPass() {
  
-
-  const { login, isLoginloading, hasLoginError, userRegister, errorMessage,setStateError,errorValue,forgot } =
+ 
+  const {  isLoginloading, hasLoginError,  errorMessage,setStateError,errorValue,forgot } =
   useUsers();
   
     //creo una funcion para manejar el tiempo del error
@@ -35,8 +35,19 @@ export default function ForgotPass() {
             })
           }
           onSubmit={async (values) => {
+
            //aca tengo que llamar a la funcion fotgot password
-               await forgot(values)
+               const res = await forgot(values)
+               if(res.status === 404){
+                setStateError({ error: true, errorMessage:res.message });
+               }else{
+                Swal.fire(
+                  'ENVIADO!',
+                  'Te hemos enviado un correo electrónico con las instrucciones,por favor rebisa tu correo!',
+                  'success'
+                )
+                
+               }
             
            
           }}
@@ -86,9 +97,12 @@ export default function ForgotPass() {
                 type="submit"
                 className="w-full my-5 py-2 bg-teal-500 shadow-lg shadow-teal-500/60 hover:shadow-teal-500/30 text-white font-semibold rounded-lg"
               >
-              <span>Enviar</span> 
+             {!isLoginloading && <span>Enviar</span>} 
               </button>
               {hasLoginError && <span className="text-red-600 text-sm">{errorMessage}</span>}
+              {isLoginloading && (
+                <AiOutlineLoading3Quarters className="animate-spin h-5 w-5 text-center text-teal-500 " />
+              )}
             </Form>
           )}
         </Formik>

@@ -18,7 +18,7 @@ export default function ListUsers() {
           </h1>
         </div>
 
-        <div className="columns-5 gap-3 w-[1200px] mx-auto space-y-3 p-5 pb-5 bg-slate-700 min-h-[1800px] ">
+        <div className="columns-5 gap-3  mx-auto space-y-3 p-5 pb-5 bg-slate-700 min-h-[1800px] ">
           {users.map((user) => (
             <UserCard user={user} key={user.id} />
           ))}

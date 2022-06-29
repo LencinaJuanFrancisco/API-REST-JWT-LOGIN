@@ -8,6 +8,7 @@ import NewPost from "./pages/NewPost";
 import ListUsers from "./pages/ListUsers";
 import MenuLogued from "./component/MenuLogued";
 import BtnCRUD from "./component/BtnCRUD";
+import LoginReset from "./pages/LoginReset"
 
 import { PostProvider } from "./context/postContext";
 
@@ -31,6 +32,7 @@ function App() {
           <Route path="/register" element={<Register />} />
           <Route path="/editUser/:id" element={<Register />} />
           <Route path="/login" element={<Login />} />
+          <Route path="/users/reset/:token" element={<LoginReset />} />
           <Route path="/forgot" element={<ForgotPass />} />
           <Route path="/reset/:token" element={<ForgotPass />} />
           <Route path="/listUsers" element={<ListUsers />} />

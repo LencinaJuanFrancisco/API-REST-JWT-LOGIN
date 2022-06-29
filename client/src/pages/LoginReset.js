@@ -2,18 +2,22 @@ import React, { useState } from "react";
 import loginImage from "../img/laptop.jpg";
 
 import * as Yup from "yup";
-import { Link,useNavigate } from "react-router-dom";
+import { Link,useNavigate ,useParams} from "react-router-dom";
 import { Formik, Form, Field, ErrorMessage } from "formik"; //, ErrorMessage
 import { useUsers } from "../context/usersContext";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
 import HandelError from '../component/HandelEerror'
+import Swal from "sweetalert2";
 
 export default function Login() {
 
-  const [userName, setUserName] = useState("");
-  const [password, setPassword] = useState("");
+  const params = useParams()
+  const token = params.token
+  console.log('params',params);
+  console.log('token',token);
 
-  const { login, isLoginloading, hasLoginError, userRegister, errorMessage,setStateError,errorValue } =
+
+  const { saveNewPass, isLoginloading, hasLoginError, errorMessage,setStateError,errorValue } =
     useUsers();
    const navigate = useNavigate() 
 
@@ -31,19 +35,33 @@ export default function Login() {
       </div>
       <div className="bg-gray-800 flex flex-col justify-center">
         <Formik
-          initialValues={{ email: userRegister.email || "", password: "" }}
+          initialValues={{ password: "" }}
           // initialValues={{ email:userRegister.email, password:password }}
           validationSchema={Yup.object({
-            email: Yup.string()
-              .email("debe ser un tipo de email valido")
-              .required("el campo es requerido"),
-            password: Yup.string().required("el campo es requerido"),
+            password: Yup.string().required('el campo es requerido').min(8,"debe contener al menos 8 caracteres").max(15,"no debe super un maximo de 15 caracteres"),
+            repitPassword: Yup.string().required('el campo es requerido').min(8,"debe contener al menos 8 caracteres").max(15,"no debe super un maximo de 15 caracteres"),
           })}
           onSubmit={async (values) => {
-            setUserName(values.email);
-            setPassword(values.password);
-            await login(values);
-          }}
+           if(values.password === values.repitPassword){
+             const res = await saveNewPass(values.password,token);
+             if(res.status === 200){
+               Swal.fire(
+                 'ENVIADO!',
+                 'Se ha modificado correctamente !!!',
+                 'success'
+               )
+               navigate('/login')
+              
+            }
+             else{
+              setStateError({ error: true, errorMessage: "Permisos vencidos, debera solicitar un nuevo cambio" });
+              navigate('/forgot')
+            }
+
+           }else{
+            setStateError({ error: true, errorMessage: "Las Contraseñas deben ser iguales" });
+           }}
+          }
         >
           {({ handleSubmit }) => (
             <Form
@@ -65,24 +83,11 @@ export default function Login() {
                 </Link>
               </header>
               <h2 className="text-4xl text-white font-bold text-center">
-                SIGN IN
+              Recuperación de contraseña
               </h2>
+              
               <div className="flex flex-col text-gray-400 py-2">
-                <label htmlFor="email">User Name</label>
-                <Field
-                  component="input"
-                  name="email"
-                  type="text"
-                  className="rounded-lg  bg-gray-700 mt-2 p-2 focus:border-blue-500 focus:bg-gray-800 focus:outline-none "
-                />
-                <ErrorMessage
-                  component="p"
-                  className="text-red-600 text-sm"
-                  name="email"
-                />
-              </div>
-              <div className="flex flex-col text-gray-400 py-2">
-                <label htmlFor="password">Password</label>
+                <label htmlFor="password">New Password</label>
                 <Field
                   name="password"
                   autoComplete="on"
@@ -92,21 +97,35 @@ export default function Login() {
                 <ErrorMessage
                   component="p"
                   className="text-red-600 text-sm"
-                  name="password"
+                  name="newPpassword"
                 />
               </div>
-              <button
+              <div className="flex flex-col text-gray-400 py-2">
+                <label htmlFor="password">Repetir Password</label>
+                <Field
+                  name="repitPassword"
+                  autoComplete="on"
+                  className="rounded-lg bg-gray-700 mt-2 p-2 focus:border-blue-500 focus:bg-gray-800 focus:outline-none "
+                  type="password"
+                />
+                <ErrorMessage
+                  component="p"
+                  className="text-red-600 text-sm"
+                  name="repitPassword"
+                />
+              </div>
+              {/* <div className="flex justify-between text-gray-400 py-2">
+                <button onClick={()=>{ navigate('/forgot')}} >Fortgot Password</button>
+              </div> */}
+              {!isLoginloading &&<button
                 onClick={(e) => {
                   e.stopPropagation();
                 }}
                 type="submit"
                 className="w-full my-5 py-2 bg-teal-500 shadow-lg shadow-teal-500/60 hover:shadow-teal-500/30 text-white font-semibold rounded-lg"
               >
-                Sign in
-              </button>
-              <div className="flex justify-center text-gray-400 py-2">
-                <button onClick={()=>{ navigate('/forgot')}} className="hover:text-teal-500 hover:shadow-white" >Fortgot Password</button>
-              </div>
+                Cambiar Password
+              </button>}
               {hasLoginError && (
                 <strong className="text-red-500">{errorMessage}</strong>
               )}

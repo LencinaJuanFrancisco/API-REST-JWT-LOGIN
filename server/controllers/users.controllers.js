@@ -164,51 +164,51 @@ oAuth2Client.setCredentials({ refresh_token: process.env.refresh_token });
 //   },
 //});
 
-async function sendMail(link, userEmailTo) {
-  try {
-    var accessToken = await oAuth2Client.getAccessToken();
-    var transport = nodemailer.createTransport({
-      service: "gmail",
-      auth: {
-        type: "OAuth2",
-        user: "juanfranciscolencina@gmail.com",
-        clientId: process.env.client_id,
-        clientSecret: process.env.client_secret,
-        refreshToken: process.env.refresh_token,
-      },
-    });
-    let mailDetails = {
-      from: "tech.support@splinter",
-      to: userEmailTo,
-      subject: "Recuperación de contraseña",
-      html: `<h2>Servicio de recuperación de contraseña</h2>
-          <p>Para restablecer su contraseña, haga clic en el enlace y siga las instrucciones</p>
-          <a href="${link}">click para recuperar tu contraseña</a>
-          `,
-    };
-    const resTransport = await transport.sendMail(
-      mailDetails,
-      (error, data) => {
-        if (error) {
-          error.message = "Internal Server Error";
-          console.log("error", error);
-           return error
-        } else{
-          // return res.status(200).json({
-          //   message: `Hola ${userName},  Te hemos enviado un correo electrónico con las instrucciones a ${userEmailTo}... Hurry up!`,
-          // });
-          console.log('esta ok');
-           const status=200
-           return status
-        }
+// async function sendMail(link, userEmailTo) {
+//   try {
+//     var accessToken = await oAuth2Client.getAccessToken();
+    // var transport = nodemailer.createTransport({
+    //   service: "gmail",
+    //   auth: {
+    //     type: "OAuth2",
+    //     user: "juanfranciscolencina@gmail.com",
+    //     clientId: process.env.client_id,
+    //     clientSecret: process.env.client_secret,
+    //     refreshToken: process.env.refresh_token,
+    //   },
+    // });
+    // let mailDetails = {
+    //   from: "tech.support@splinter",
+    //   to: userEmailTo,
+    //   subject: "Recuperación de contraseña",
+    //   html: `<h2>Servicio de recuperación de contraseña</h2>
+    //       <p>Para restablecer su contraseña, haga clic en el enlace y siga las instrucciones</p>
+    //       <a href="${link}">click para recuperar tu contraseña</a>
+    //       `,
+    // };
+    // const resTransport = await transport.sendMail(
+    //   mailDetails,
+    //   (error, data) => {
+    //     if (error) {
+    //       error.message = "Internal Server Error";
+    //       console.log("error", error);
+    //        return error
+    //     } else{
+    //       // return res.status(200).json({
+    //       //   message: `Hola ${userName},  Te hemos enviado un correo electrónico con las instrucciones a ${userEmailTo}... Hurry up!`,
+    //       // });
+    //       console.log('esta ok');
+    //        const status=200
+    //        return status
+    //     }
         
-      }
-    );
-    return resTransport;
-  } catch (error) {
-    console.log(error);
-  }
-}
+    //   }
+    // );
+    //return resTransport;
+//   } catch (error) {
+//     console.log(error);
+//   }
+// }
 
 const forgot = async (req, res, next) => {
   // console.log('entra al back???', req.body.email);
@@ -224,9 +224,9 @@ const forgot = async (req, res, next) => {
   };
   const token = await tokenSign(user, "15m");
   const link = `${public_url_react}/users/reset/${token}`;
-  const resMail = await sendMail(link, user.email);
-  console.log("respuesta de sentMail", resMail);
-  return resMail
+  //const resMail = await sendMail(link, user.email);
+  // console.log("respuesta de sentMail", resMail);
+  // return resMail
   // let mailDetails = {
   //   from: "tech.support@splinter",
   //   to: user.email,
@@ -245,6 +245,41 @@ const forgot = async (req, res, next) => {
   //       message: `Hola ${user.name},  Te hemos enviado un correo electrónico con las instrucciones a ${user.email}... Hurry up!`,
   //     });
   // });
+  var transport = nodemailer.createTransport({
+    service: "gmail",
+    auth: {
+      type: "OAuth2",
+      user: "juanfranciscolencina@gmail.com",
+      clientId: process.env.client_id,
+      clientSecret: process.env.client_secret,
+      refreshToken: process.env.refresh_token,
+    },
+  });
+  let mailDetails = {
+    from: "tech.support@splinter",
+    to: user.email,
+    subject: "Recuperación de contraseña",
+    html: `<h2>Servicio de recuperación de contraseña</h2>
+        <p>Para restablecer su contraseña, haga clic en el enlace y siga las instrucciones</p>
+        <a href="${link}">click para recuperar tu contraseña</a>
+        `,
+  };
+  transport.sendMail(
+    mailDetails,
+    (error, data) => {
+      if (error) {
+        error.message = "Internal Server Error";
+        console.log("error", error);
+        res.status(500).json({ message: "error en el envio del email", error });
+      } else{
+        res.status(200).json({
+                 message: `Hola ${user.name},  Te hemos enviado un correo electrónico con las instrucciones a ${user.email}... Hurry up!`,
+              });
+       
+      }
+      
+    }
+  );
 };
 //FORM -> reset password
 const reset = async (req, res, next) => {

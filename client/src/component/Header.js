@@ -21,7 +21,7 @@ export default function Header({ JWT }) {
                 className="relative z-0 w-full max-w-md py-2 text-4xl font-black text-left text-white sm:py-5 sm:text-6xl"
                 data-unsp-sanitized="clean"
               >
-                Tabajo Final
+                My Blogs
               </h1>
             </div>
 

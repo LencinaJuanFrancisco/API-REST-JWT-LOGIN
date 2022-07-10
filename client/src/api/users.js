@@ -43,6 +43,7 @@ export const createUserReq = async (user) => {
   for (let key in user) {
     form.append(key, user[key]);
   }
+  console.log(form);
     const res = await axios.post("/users/register", form, {
       headers: {
         "content-Type": "multipart/form-data",

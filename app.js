@@ -7,7 +7,7 @@ const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, 'server/storage')))
-const PORT = process.env.PORT || 3005
+const PORT = process.env.PORT || 4000
 
 /*para subir a heroku */
 if(process.env.NODE_ENV === 'production'){

@@ -12,9 +12,9 @@ const PORT = process.env.PORT || 4000
 /*para subir a heroku */
 if(process.env.NODE_ENV === 'production'){
 
-    app.use(express.static(path.join(__dirname,'./client/dist')))
+    app.use(express.static(path.join(__dirname,'client/dist')))
     app.get('*',(req,res)=>{
-        res.sendFile(path.resolve(__dirname,'./client/index.html'))
+        res.sendFile(path.resolve(__dirname,'client/index.html'))
     })
 }
 /*Bootstrap static files */

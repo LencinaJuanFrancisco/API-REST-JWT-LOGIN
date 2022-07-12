@@ -2,7 +2,7 @@ import React from 'react'
 import { useUsers } from '../context/usersContext'
 
 export default function HomeUsers() {
-    const {users} = useUsers()
+    const {users} = useUsers([])
   return (
     
     <section className="bg-white dark:bg-gray-900">

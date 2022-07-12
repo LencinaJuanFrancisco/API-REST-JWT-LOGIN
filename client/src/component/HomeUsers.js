@@ -12,7 +12,7 @@ export default function HomeUsers() {
                     <p className="max-w-2xl mx-auto my-6 text-center text-gray-500 dark:text-gray-300">
                         Lorem ipsum dolor sit amet consectetur adipisicing elit. Illo incidunt ex placeat modi magni quia error alias, adipisci rem similique, at omnis eligendi optio eos harum.
                     </p>
-                    {users.lenght > 0 && <div className="grid grid-cols-1 gap-8 mt-8 xl:mt-16 md:grid-cols-2 xl:grid-cols-4" >
+                    {users && <div className="grid grid-cols-1 gap-8 mt-8 xl:mt-16 md:grid-cols-2 xl:grid-cols-4" >
                     {users.map(user=>(
                         <div className="flex flex-col items-center p-8 transition-colors duration-200 transform cursor-pointer group hover:bg-teal-600 rounded-xl" key={user.id}>
                             <img className="object-cover w-32 h-32 rounded-full ring-4 ring-gray-300" src={user.image} alt=""/>

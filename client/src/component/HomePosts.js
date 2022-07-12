@@ -15,7 +15,7 @@ export default function HomePosts() {
         ex placeat modi magni quia error alias, adipisci rem similique, at omnis
         eligendi optio eos harum.
       </p>
-      {posts.lenght > 0 && < div className="columns-4 gap-3 w-[1200px] mx-auto space-y-3 p-5 pb-5 bg-slate-800 min-h-[1800px] ">
+      {posts && < div className="columns-4 gap-3 w-[1200px] mx-auto space-y-3 p-5 pb-5 bg-slate-800 min-h-[1800px] ">
         {posts.map((post) => (
           <PostCard key={post.id} post={post} />
         ))}

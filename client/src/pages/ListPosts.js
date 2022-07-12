@@ -64,9 +64,9 @@ export default function ListPosts() {
             </div>
           )}
           <div className="lg:columns-4 md:columns-3  sm:columns-1 gap-1  mx-auto space-y-3 p-5 pb-5 bg-slate-700 min-h-[1800px] ">
-            {result && result.map((post) => (
+            {/* {result && result.map((post) => (
               <PostCard key={post.id} post={post} />
-            ))}
+            ))} */}
           </div>
         </div>
       </div>

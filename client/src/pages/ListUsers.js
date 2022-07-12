@@ -18,11 +18,11 @@ export default function ListUsers() {
           </h1>
         </div>
 
-        <div className="columns-5 gap-3  mx-auto space-y-3 p-5 pb-5 bg-slate-700 min-h-[1800px] ">
+        {users.length >0 &&<div className="columns-5 gap-3  mx-auto space-y-3 p-5 pb-5 bg-slate-700 min-h-[1800px] ">
           {users.map((user) => (
             <UserCard user={user} key={user.id} />
           ))}
-        </div>
+        </div>}
       </div>
     );
   }else{

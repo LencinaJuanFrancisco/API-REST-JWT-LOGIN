@@ -16,7 +16,7 @@ export default function HomePosts() {
         eligendi optio eos harum.
       </p>
       < div className="columns-4 gap-3 w-[1200px] mx-auto space-y-3 p-5 pb-5 bg-slate-800 min-h-[1800px] ">
-        { posts && posts.map((post) => (
+        {posts.lenght > 0  && posts.map((post) => (
           <PostCard key={post.id} post={post} />
         ))}
       </div>

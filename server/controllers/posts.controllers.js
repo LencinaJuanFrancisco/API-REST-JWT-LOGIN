@@ -28,12 +28,12 @@ const addOne = async (req, res, next) => {
   try {
     if (req.file) {
       const image = `${public_url}/${req.file.filename}`;
-      const rtaAdd = await addNewPost({ userid: 2, ...cleanBody, image });
-      res.status(200).json({ id: rtaAdd.insertId, userid: 2, ...cleanBody });
+      const rtaAdd = await addNewPost({ userid: 4, ...cleanBody, image });
+      res.status(200).json({ id: rtaAdd.insertId, userid: 4, ...cleanBody });
       if (rtaAdd instanceof Error) return next(rtaAdd);
     } else {
       const rtaAdd = await addNewPost({ userid: 2, ...cleanBody });
-      res.status(200).json({ id: rtaAdd.insertId, userid: 2, ...cleanBody });
+      res.status(200).json({ id: rtaAdd.insertId, userid: 4, ...cleanBody });
       if (rtaAdd instanceof Error) return next(rtaAdd);
     }
   } catch (error) {

@@ -19,7 +19,7 @@ export default function ListUsers() {
         </div>
 
         <div className="columns-5 gap-3  mx-auto space-y-3 p-5 pb-5 bg-slate-700 min-h-[1800px] ">
-          {users.map((user) => (
+          {users && users.map((user) => (
             <UserCard user={user} key={user.id} />
           ))}
         </div>

@@ -47,8 +47,8 @@ function PostCard({ post }) {
         {JWT && (
           <button
             className="text-white bg-purple-600 px-3 py-1  rounded-md hover:bg-purple-700"
-            onClick={(e) => {
-              e.stopPropagation();
+            onClick={() => {
+              // e.stopPropagation();
               handelDelete(post.id, post.title);
             }}
           >

@@ -24,7 +24,7 @@ const imgDefault =
   }
 // return res.status(200).json({data:rtaList})
   if (rtaList instanceof Error) return next(rtaList);
-  rtaList.length
+  rtaList.length 
     ? res.status(200).json(rtaList)
     : res.status(200).json({ message: "no hay posts" });
 };

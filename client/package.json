@@ -50,5 +50,6 @@
     "postcss": "^8.4.14",
     "tailwindcss": "^3.0.24"
   },
-  "proxy": "http://localhost:3005"
+  
+  "proxy": "https://createpostscrud.herokuapp.com"
 }

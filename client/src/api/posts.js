@@ -6,7 +6,7 @@ import axios from "axios";
 export const getPosReq = async () => {
   try {
     const res =  await axios.get("/posts");
-    //console.log('😀😀😀😀',res.data);
+    console.log('😀😀😀😀',res.data);
     return res.data
   } catch (error) {
     console.log("vengo del getPosReq ", error);

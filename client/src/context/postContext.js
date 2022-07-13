@@ -23,8 +23,10 @@ export const PostProvider = ({ children }) => {
   //creamos una funcion para actualizar el estado de todos los posts
 
   const newState = async () => {
+  
     const otraRes = await getPosReq();
     setPosts(otraRes);
+    console.log('que se carga aca',otraRes);
   };
 
   const deletePost = async (id, jwt) => {

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import { usePosts } from "../context/postContext";
 import { useUsers } from "../context/usersContext";
@@ -10,8 +10,13 @@ export default function ListPosts() {
   const { posts } = usePosts();
   const { logout, errorMessage, setStateError, errorValue, JWT } = useUsers();
 
-  const [serach, setSearch] = useState("");
-
+  const [serach, setSearch] = useState('');
+// useEffect(()=>{
+//   console.log("LOS POSTS DEL EFECT",posts);
+// },[posts])
+// useEffect(()=>{
+//   console.log("LOS POSTS DEL EFECT",serach);
+// },[serach])
   const runSetTime = () => {
     logout();
     setStateError({ error: false, errorMessage: " " });
@@ -24,12 +29,14 @@ export default function ListPosts() {
   let result = [];
 
   if (!serach) {
+    console.log("post en el if",posts);
     result = posts;
   } else {
     result = posts.filter((dato) =>
       dato.title.toLowerCase().includes(serach.toLowerCase())
     );
   }
+  console.log('que hay ',result);
   if (JWT) {
     return (
       <div>
@@ -63,10 +70,11 @@ export default function ListPosts() {
               {runSetTime()}
             </div>
           )}
+          
           <div className="lg:columns-4 md:columns-3  sm:columns-1 gap-1  mx-auto space-y-3 p-5 pb-5 bg-slate-700 min-h-[1800px] ">
-            {/* {result && result.map((post) => (
+            {result.length>0 && result.map((post) => (
               <PostCard key={post.id} post={post} />
-            ))} */}
+            ))}
           </div>
         </div>
       </div>

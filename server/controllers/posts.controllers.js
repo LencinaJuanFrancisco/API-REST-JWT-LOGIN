@@ -11,13 +11,18 @@ const notNumber = require("../utils/notNumber");
 const public_url = process.env.public_url;
 const imgDefault =
   "https://images.unsplash.com/photo-1506744038136-46273834b3fb?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=750&q=80";
-const listAll = async (req, res, next) => {
+
+  const listAll = async (req, res, next) => {
+    console.log("entre al list");
   let rtaList = null;
   if (req.query.title) {
     rtaList = await getPostsWith(req.query.title);
   } else {
+
     rtaList = await getAllPosts();
+    console.log(rtaList);
   }
+// return res.status(200).json({data:rtaList})
   if (rtaList instanceof Error) return next(rtaList);
   rtaList.length
     ? res.status(200).json(rtaList)

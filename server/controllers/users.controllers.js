@@ -149,9 +149,9 @@ const login = async (req, res, next) => {
 
 // congiguracion para google
 const oAuth2Client = new google.auth.OAuth2(
-  process.env.client_id,
-  process.env.client_secret,
-  process.env.direct_uri
+  '278308160168-5ertqp6hre9419kkg1ed1nbqnatvql4m.apps.googleusercontent.com',
+  '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',
+  'https://developers.google.com/oauthplayground'
 );
 oAuth2Client.setCredentials({ refresh_token: process.env.refresh_token });
 
@@ -176,9 +176,9 @@ const forgot = async (req, res, next) => {
     auth: {
       type: "OAuth2",
       user: "juanfranciscolencina@gmail.com",
-      clientId: process.env.client_id,
-      clientSecret: process.env.client_secret,
-      refreshToken: process.env.refresh_token,
+      clientId: '278308160168-5ertqp6hre9419kkg1ed1nbqnatvql4m.apps.googleusercontent.com',
+      clientSecret: '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',
+      refreshToken: '1//04nleuH35NwIMCgYIARAAGAQSNwF-L9Ir_hUcQRxSwaevkpARXRGhYpuPcLYbNlrnlhCm7F472XkQlegr2Mk1qD5_YA8Fe7CKAy0',
     },
   });
   let mailDetails = {

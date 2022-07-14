@@ -16,7 +16,7 @@ const { google } = require("googleapis");
 const { OAuth2Client } = require("google-auth-library");
 const public_url = process.env.public_url;
 const public_url_react = process.env.public_url_react;
-const imgRandon = require('../../client/src/img/avataaars.svg')
+
 
 const allUser = async (req, res, next) => {
   const rtaAllUser = await getAllUsers();
@@ -102,7 +102,7 @@ const register = async (req, res, next) => {
         .status(201)
         .json({ status: 201, message: "User Created", user: newUser });
     } else {
-      const image = imgRandon
+      const image = "https://source.unsplash.com/640x390/?tech,app"
       const password = await encrypt(req.body.password);
       const rtaRegister = await addNewUser({ ...cleanBody, password, image });
       if (rtaRegister instanceof Error) return next(rtaRegister);

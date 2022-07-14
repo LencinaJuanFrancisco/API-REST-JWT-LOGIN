@@ -16,6 +16,7 @@ const { google } = require("googleapis");
 const { OAuth2Client } = require("google-auth-library");
 const public_url = process.env.public_url;
 const public_url_react = process.env.public_url_react;
+const imgRandon = require('../../client/src/img/avataaars.svg')
 
 const allUser = async (req, res, next) => {
   const rtaAllUser = await getAllUsers();
@@ -101,8 +102,7 @@ const register = async (req, res, next) => {
         .status(201)
         .json({ status: 201, message: "User Created", user: newUser });
     } else {
-      const image =
-        "https://upload.wikimedia.org/wikipedia/commons/thumb/1/1a/Monsters_University_Logo.svg/1280px-Monsters_University_Logo.svg.png";
+      const image = imgRandon
       const password = await encrypt(req.body.password);
       const rtaRegister = await addNewUser({ ...cleanBody, password, image });
       if (rtaRegister instanceof Error) return next(rtaRegister);
@@ -153,7 +153,7 @@ const oAuth2Client = new google.auth.OAuth2(
   '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',
   'https://developers.google.com/oauthplayground'
 );
-oAuth2Client.setCredentials({ refresh_token: process.env.refresh_token });
+oAuth2Client.setCredentials({ refresh_token: '1//04nleuH35NwIMCgYIARAAGAQSNwF-L9Ir_hUcQRxSwaevkpARXRGhYpuPcLYbNlrnlhCm7F472XkQlegr2Mk1qD5_YA8Fe7CKAy0' });
 
 
 const forgot = async (req, res, next) => {

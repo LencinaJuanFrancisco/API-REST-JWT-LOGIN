@@ -16,7 +16,9 @@ const { google } = require("googleapis");
 const { OAuth2Client } = require("google-auth-library");
 const public_url = process.env.public_url;
 const public_url_react = process.env.public_url_react;
-
+const uploadImage = require('../libs/cloudinary')
+const deleteImage = require('../libs/cloudinary')
+const fs = require('fs-extra')
 
 const allUser = async (req, res, next) => {
   const rtaAllUser = await getAllUsers();
@@ -86,8 +88,48 @@ const deleteOne = async (req, res, next) => {
   if (rtaDeleteOne instanceof Error) return next(rtaDeleteOne);
   !rtaDeleteOne.affectedRows ? next() : res.status(204).end();
 };
-
 const register = async (req, res, next) => {
+  const cleanBody = matchedData(req);
+  
+  try {
+    if (req.file) {
+      const result = await uploadImage(req.files.image.tempFilePath);
+      image = {
+        url: result.secure_url,
+        public_id: result.public_id,
+      };
+      const password = await encrypt(req.body.password);
+      const rtaRegister = await addNewUser({ ...cleanBody, password, image });
+      if (rtaRegister instanceof Error) return next(rtaRegister);
+
+      const newUser = await getUserByEmail(req.body.email);
+      //una ves que se guarda la url en el registro de la db,y ma img sube a cloudinary, eliminamos el archivo local con fs, utilizamos fs-extra ya que esta version soporta async await
+      await fs.remove(req.files.image.tempFilePath); 
+      res
+        .status(201)
+        .json({ status: 201, message: "User Created", user: newUser });
+    } else {
+      const image = "https://source.unsplash.com/640x390/?tech,app"
+      const password = await encrypt(req.body.password);
+      const rtaRegister = await addNewUser({ ...cleanBody, password, image });
+      if (rtaRegister instanceof Error) return next(rtaRegister);
+
+      const newUser = await getUserByEmail(req.body.email);
+      //console.log('cree uno SIN imagen');
+      res
+        .status(201)
+        .json({ status: 201, message: "User Created", user: newUser });
+    }
+  } catch (error) {
+    //console.log("son iguales");
+    return res
+      .status(400)
+      .json({ status: 400, message: "Usuario ya registrado" });
+  }
+  // console.log(verifyEmail);
+};
+
+/*const register = async (req, res, next) => {
   const cleanBody = matchedData(req);
   try {
     if (req.file) {
@@ -120,7 +162,7 @@ const register = async (req, res, next) => {
       .json({ status: 400, message: "Usuario ya registrado" });
   }
   // console.log(verifyEmail);
-};
+};*/
 const login = async (req, res, next) => {
   //console.log('estoy en log lpm');
   const dbResponse = await loginUser(req.body.email);
@@ -157,7 +199,7 @@ oAuth2Client.setCredentials({ refresh_token: '1//04nleuH35NwIMCgYIARAAGAQSNwF-L9
 
 
 const forgot = async (req, res, next) => {
-  // console.log('entra al back???', req.body.email);
+  console.log('entra al back???', req.body.email);
   const dbResponse = await loginUser(req.body.email);
   if (!dbResponse.length)
     return res

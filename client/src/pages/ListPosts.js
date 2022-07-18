@@ -11,12 +11,7 @@ export default function ListPosts() {
   const { logout, errorMessage, setStateError, errorValue, JWT } = useUsers();
 
   const [serach, setSearch] = useState('');
-// useEffect(()=>{
-//   console.log("LOS POSTS DEL EFECT",posts);
-// },[posts])
-// useEffect(()=>{
-//   console.log("LOS POSTS DEL EFECT",serach);
-// },[serach])
+
   const runSetTime = () => {
     logout();
     setStateError({ error: false, errorMessage: " " });

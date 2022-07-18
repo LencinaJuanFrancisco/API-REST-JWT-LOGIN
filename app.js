@@ -2,6 +2,7 @@ require('dotenv').config()
 const hbs = require("express-handlebars")
 const path = require("path")
 const express = require('express');
+const fileUpload = require('express-fileupload')
 const app = express();
 
 app.use(express.json());
@@ -9,6 +10,11 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, 'server/storage')))
 const PORT = process.env.PORT || 3005
 
+//configuracion para subir img a claudinary
+app.use(fileUpload({
+    useTempFiles : true,
+    tempFileDir : './upload'
+}));
 /*para subir a heroku */
 if(process.env.NODE_ENV === 'production'){
 

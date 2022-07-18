@@ -57,6 +57,7 @@ export default function Login() {
           }
           onSubmit={async (values) => {
             if(params.id){
+              console.log('en react',params.id,values);
               await updateUser(params.id,values)
             }else{
               await createUser(values)

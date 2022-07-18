@@ -23,9 +23,9 @@ function App() {
   return (
     <div className="App bg-slate-700 h-screen relative ">
       <PostProvider>
+       
         {JWT && <MenuLogued logout={logout} userLogued={userLogued} />}
         {JWT && <BtnCRUD JWT={JWT} />}
-       
         <Routes>
           <Route path="/" element={<Header JWT={JWT}  />} />
           <Route path="/listPosts" element={<ListPosts />} />

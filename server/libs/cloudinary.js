@@ -1,9 +1,9 @@
 const v2 = require('cloudinary')
 
 v2.config({  
-    cloud_name:"dwtltggn7",
-    api_key:"616388625615248",
-    api_secret:"-QpZaPWI7S5anMDM1RB-HiDLKfg"
+    cloud_name:process.env.cloud_name_cloudinary,
+    api_key:process.env.api_key_cloudinary,
+    api_secret:process.env.api_secret_cloudinary
 })
 
  const uploadImage = async filePath =>{

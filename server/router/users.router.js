@@ -6,8 +6,8 @@ const uploadFile = require("../utils/handleStorage")
 
 router.get('/', allUser)
 router.get('/:id', listOne)
-router.post('/register', uploadFile.single("image"), validatorCreateUser, register)
-router.put('/:id', uploadFile.single("image"), validatorEditUser, editOne)
+router.post('/register', register)//validatorCreateUser,
+router.put('/:id',  editOne)//validatorEditUser,
 router.post('/login', login)
 router.post("/forgot-password", forgot)
 router.get('/reset/:token', reset)

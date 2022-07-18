@@ -16,8 +16,8 @@ const { google } = require("googleapis");
 const { OAuth2Client } = require("google-auth-library");
 const public_url = process.env.public_url;
 const public_url_react = process.env.public_url_react;
-const uploadImage = require('../libs/cloudinary')
-const deleteImage = require('../libs/cloudinary')
+const {uploadImage,deleteImage} = require('../libs/cloudinary')
+
 const fs = require('fs-extra')
 
 const allUser = async (req, res, next) => {

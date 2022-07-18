@@ -6,12 +6,13 @@ v2.config({
     api_secret:"-QpZaPWI7S5anMDM1RB-HiDLKfg"
 })
 
-export const uploadImage = async filePath =>{
+ const uploadImage = async filePath =>{
    return await v2.uploader.upload(filePath,{
         folder: 'Blogs UTN'
     })
 }
 
-export const deleteImage = async id=>{
+ const deleteImage = async id=>{
     return await v2.uploader.destroy(id)
 }
+module.exports = {uploadImage,deleteImage}
